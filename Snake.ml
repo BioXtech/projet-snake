@@ -36,6 +36,18 @@ let mygraphic_y(y : int) : int =
     - y : coordonnee sur y du pixel *)
 let myplot(x,y : int * int) : unit =
   open_graph(700,700);
-  fill_rect(mygraphic_x(x),mygraphic_y(y),mygraphic_x(x) + mydilation_x(),mygraphic_y(y) + mydilation_y());
+  fill_rect(mygraphic_x(x),mygraphic_y(y),mydilation_x(),mydilation_y());
+  wait(5);
+  close_graph();
+;;
+
+
+(** Trace dans la fenetre d'affichage le rectangle vide
+    4 parametres :
+    - px, py : coordonnee du point en bas a gauche
+    - dx, dy : longueurs des cotes *)
+let myfill_rect(px, py, dx, dy : int * int * int * int) : unit =
+  open_graph(700,700);
+  draw_rect(mygraphic_x(px), mygraphic_y(py),mydilation_x() * dx,mydilation_y() * dy);
   wait(5);
 ;;
