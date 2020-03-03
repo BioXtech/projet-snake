@@ -1,5 +1,5 @@
 #use "CPinter_sn.ml";;
-
+open_graph(700,700);;
 (** Retourne le coefficiant de translation sur x *)
 let mytranslation_x() : int =
   100
@@ -35,10 +35,7 @@ let mygraphic_y(y : int) : int =
     - x : coordonnee sur x du pixel
     - y : coordonnee sur y du pixel *)
 let myplot(x,y : int * int) : unit =
-  open_graph(700,700);
   fill_rect(mygraphic_x(x),mygraphic_y(y),mydilation_x(),mydilation_y());
-  wait(5);
-  close_graph();
 ;;
 
 
@@ -47,7 +44,73 @@ let myplot(x,y : int * int) : unit =
     - px, py : coordonnee du point en bas a gauche
     - dx, dy : longueurs des cotes *)
 let myfill_rect(px, py, dx, dy : int * int * int * int) : unit =
-  open_graph(700,700);
-  draw_rect(mygraphic_x(px), mygraphic_y(py),mydilation_x() * dx,mydilation_y() * dy);
-  wait(5);
+  fill_rect(mygraphic_x(px), mygraphic_y(py),mydilation_x() * dx,mydilation_y() * dy);
 ;;
+
+(* Type et fonction de base *)
+
+type t_point = {x : int ; y : int};;
+type t_direction = UP | DOWN | RIGHT | LEFT;;
+type t_position = {pt : t_point ; dir : t_direction};;
+type t_value = EMPTY | SNAKE | FRAME | PROBLEM ;;
+
+let fonction color_of_value(x : t_value ) : t_color =
+  if x = PROBLEM
+  then Graphics.black 
+  else
+    if x = FRAME
+    then Graphics.red 
+    else
+      if x = SNAKE
+      then Graphics.green 
+      else Graphics.white ;;
+
+
+
+let mymatrix_dx() : int =
+  500;;
+
+let mymatrix_dy() : int =
+  500;;
+
+
+type t_matrix = t_value matrix;;
+type t_snake = t_position list;;
+type t_play = {dt : float ref; sn : t_snake ref; mat : t_matrix};;
+
+let mydt_init() : float =
+  0.0;;
+
+let mydt_acc() : float =
+  3.0
+;;
+
+let mydt_ratio() : float =
+  0.1
+;;
+
+let mysnake_length_init() : int =
+3
+;;
+
+let mysnake_position_init () : t_point =
+  {x = 200; y = 200}
+;;
+(** Fonction auxiliaire pour dessiner le serpent *)
+let rec draw_whole_snake_aux(s : t_snake) : t_snake =
+  if s = []
+  then []
+  else
+    (
+      myplot(fst(s).pt.x,fst(s).pt.y);
+      rem_fst(s);
+    )
+;;
+
+(** Dessine la totalite du serpent *)
+let draw_whole_snake(s : t_snake) : unit =
+  draw_whole_snake_aux(s)
+  ()
+;;
+
+      
