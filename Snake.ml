@@ -48,12 +48,20 @@ let myfill_rect(px, py, dx, dy : int * int * int * int) : unit =
 ;;
 
 (* Type et fonction de base *)
-
+(** Represente les coordonnees d'un point *)
 type t_point = {x : int ; y : int};;
+
+(** Represente la direction que prend le serpent *)
 type t_direction = UP | DOWN | RIGHT | LEFT;;
+
+(** Represente la position du serpent et la direction*)
 type t_position = {pt : t_point ; dir : t_direction};;
+
+(** Reprensente la valeur d'une case *)
 type t_value = EMPTY | SNAKE | FRAME | PROBLEM ;;
 
+
+(** En fonction de la valeur de la case, donne la couleur correspondante *)
 let fonction color_of_value(x : t_value ) : t_color =
   if x = PROBLEM
   then Graphics.black 
@@ -66,10 +74,11 @@ let fonction color_of_value(x : t_value ) : t_color =
       else Graphics.white ;;
 
 
-
+(** Represente la longueur de la matrice en x*)
 let mymatrix_dx() : int =
   500;;
 
+(** Represente la longueur de la matrice en y *)
 let mymatrix_dy() : int =
   500;;
 
@@ -77,25 +86,33 @@ let mymatrix_dy() : int =
 type t_matrix = t_value matrix;;
 type t_snake = t_position list;;
 type t_play = {dt : float ref; sn : t_snake ref; mat : t_matrix};;
-
+(** Represente la vitesse initiale du serpent *)
 let mydt_init() : float =
   0.0;;
-
+(** Reprensente  l'intervalle entre deux mouvements *)
 let mydt_acc() : float =
-  3.0
+3.0
 ;;
-
+(** Reprensente le ratio entre la nouvelle position et la précedente*)
 let mydt_ratio() : float =
-  0.1
+0.1
 ;;
-
+(** Represente la longueur du serpent au point initiale *)
 let mysnake_length_init() : int =
 3
 ;;
-
+(** Represente les coordonnées de la position initiale du serpent *)
 let mysnake_position_init () : t_point =
-  {x = 200; y = 200}
-;;
+  {x = 200; y = 200};;
+
+(** Dessine le cadre autour de la matrice de jeu *)
+let draw_frame() : unit =
+  for i = 0 to 4
+  do
+    draw_rect(0 -i+100,0-i+100,(99+i/5)*5,5*(99+i/5));
+    
+  done;;
+    
 
 (** Fonction auxiliaire pour dessiner le serpent *)
 let rec draw_whole_snake_aux(s : t_snake) : t_snake =
