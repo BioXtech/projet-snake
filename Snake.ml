@@ -122,3 +122,20 @@ let init_snake() : t_snake =
     {pt = {x = (mysnake_position_init()).x + 5; y = (mysnake_position_init()).y} ; dir = LEFT};
     {pt = {x = (mysnake_position_init()).x + 10; y = (mysnake_position_init()).y}; dir = LEFT}]
 ;;
+
+(** Initialise la matrice de jeu en EMPTY (en blanc)*)
+let init_matrix() : t_matrix =
+  mat_make(mymatrix_dx(),mymatrix_dy(),EMPTY)
+;;
+
+(** Insere les positions du t_snake dans la matrice de jeu globale *)
+let init_snake_matrix() : t_snake * t_matrix =
+  let snake : t_snake = init_snake() and game_matrix : t_matrix = init_matrix() in
+  (
+    for i = 0 to len(snake) - 1
+    do
+      game_matrix.((nth(snake,i)).pt.x).((nth(snake,i)).pt.y) <- SNAKE;
+    done;
+    (snake,game_matrix);
+  )
+;;
