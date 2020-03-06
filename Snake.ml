@@ -87,7 +87,7 @@ let mydt_init() : float =
 let mydt_acc() : float =
 3.0
 ;;
-(** Reprensente le ratio entre la nouvelle position et la précedente*)
+(** Reprensente le ratio entre la nouvelle position et la precedente*)
 let mydt_ratio() : float =
 0.1
 ;;
@@ -95,23 +95,57 @@ let mydt_ratio() : float =
 let mysnake_length_init() : int =
 3
 ;;
-(** Represente les coordonnées de la position initiale du serpent *)
+(** Represente les coordonnees de la position initiale du serpent *)
 let mysnake_position_init () : t_point =
   {x = 200; y = 200};;
 
 (** Dessine le cadre autour de la matrice de jeu *)
-let draw_frame() : unit =
+let draw_frame() : unit
+ 
   for i = 0 to 4
   do
-    draw_rect(0 -i+100,0-i+100,(99+i/5)*5,5*(99+i/5));
+    draw_rect(0 -i+mytranslation_x,0-i+mytranslation_y,(99+i/mydilation_x)*mydilation_x,(99+i/mydilation_y)*mydilation_y);
     
   done;;
-    
-let init_snake() : t_snake =
-  
- 
+
+let rec draw_whole_snake_aux(s : t_snake) : t_snake =
+  if s = []
+  then []
+  else
+    (
+      myplot((fst(s)).pt.x,(fst(s)).pt.y);
+      draw_whole_snake_aux(rem_fst(s));
+    )
 ;;
 
+(** Dessine la totalite du serpent *)
+let draw_whole_snake(s : t_snake) : unit =
+  set_color(Graphics.green);
+  draw_whole_snake_aux(s);
+  ();
+;;
+
+      
+(** Initialise le serpent au debut du jeu *)
+let init_snake() : t_snake =
+  [{pt = mysnake_position_init(); dir = LEFT};
+    {pt = {x = (mysnake_position_init()).x + 5; y = (mysnake_position_init()).y} ; dir = LEFT};
+    {pt = {x = (mysnake_position_init()).x + 10; y = (mysnake_position_init()).y}; dir = LEFT}]
+;;
+  
+(** Initialise la matrice de jeu en EMPTY (en blanc)*)
+let init_matrix() : t_matrix =
+  mat_make(mymatrix_dx(),mymatrix_dy(),EMPTY);;
+
+
+let init_play() : t_play =
+  draw_frame();
+  draw_whole_snake(init_snake);;
 
   
 
+
+  
+  
+  
+   
