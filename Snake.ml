@@ -96,21 +96,29 @@ let mysnake_length_init() : int =
 let mysnake_position_init () : t_point =
   {x = 200; y = 200}
 ;;
+
 (** Fonction auxiliaire pour dessiner le serpent *)
 let rec draw_whole_snake_aux(s : t_snake) : t_snake =
   if s = []
   then []
   else
     (
-      myplot(fst(s).pt.x,fst(s).pt.y);
-      rem_fst(s);
+      myplot((fst(s)).pt.x,(fst(s)).pt.y);
+      draw_whole_snake_aux(rem_fst(s));
     )
 ;;
 
 (** Dessine la totalite du serpent *)
 let draw_whole_snake(s : t_snake) : unit =
-  draw_whole_snake_aux(s)
-  ()
+  set_color(Graphics.green);
+  draw_whole_snake_aux(s);
+  ();
 ;;
 
       
+(** Initialise le serpent au debut du jeu *)
+let init_snake() : t_snake =
+  [{pt = mysnake_position_init(); dir = LEFT};
+    {pt = {x = (mysnake_position_init()).x + 5; y = (mysnake_position_init()).y} ; dir = LEFT};
+    {pt = {x = (mysnake_position_init()).x + 10; y = (mysnake_position_init()).y}; dir = LEFT}]
+;;
