@@ -100,11 +100,13 @@ let mysnake_position_init () : t_point =
   {x = 200; y = 200};;
 
 (** Dessine le cadre autour de la matrice de jeu *)
-let draw_frame() : unit
- 
+let draw_frame() : unit =
   for i = 0 to 4
   do
-    draw_rect(0 -i+mytranslation_x,0-i+mytranslation_y,(99+i/mydilation_x)*mydilation_x,(99+i/mydilation_y)*mydilation_y);
+    draw_rect(0 -i+mytranslation_x(),
+              0-i+mytranslation_y(),
+              ((mytranslation_x()-1)+i/mydilation_x())*mydilation_x(),
+              ((mytranslation_y()-1)+i/mydilation_y())*mydilation_y());
     
   done;;
 
@@ -137,13 +139,26 @@ let init_snake() : t_snake =
 let init_matrix() : t_matrix =
   mat_make(mymatrix_dx(),mymatrix_dy(),EMPTY);;
 
-
+(** Insere les positions du t_snake dans la matrice de jeu globale *)
+let init_snake_matrix() : t_snake * t_matrix =
+  let snake : t_snake = init_snake() and game_matrix : t_matrix = init_matrix() in
+  (
+    for i = 0 to len(snake) - 1
+    do
+      game_matrix.((nth(snake,i)).pt.x).((nth(snake,i)).pt.y) <- SNAKE;
+    done;
+    (snake,game_matrix);
+  )
+;;
+(** ne marche pas encore*)
 let init_play() : t_play =
   draw_frame();
-  draw_whole_snake(init_snake);;
+  draw_whole_snake(init_snake());
+  {dt = mydt_acc; sn = init_snake; mat = init_matrix};;
 
+
+let remove_snake_tail( pl : t_play ) : unit =
   
-
 
   
   
