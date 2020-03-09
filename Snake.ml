@@ -54,7 +54,7 @@ type t_direction = UP | DOWN | RIGHT | LEFT;;
 type t_position = {pt : t_point ; dir : t_direction};;
 type t_value = EMPTY | SNAKE | FRAME | PROBLEM ;;
 
-let fonction color_of_value(x : t_value ) : t_color =
+let color_of_value(x : t_value ) : t_color =
   if x = PROBLEM
   then Graphics.black 
   else
@@ -95,6 +95,18 @@ let mysnake_length_init() : int =
 
 let mysnake_position_init () : t_point =
   {x = 200; y = 200}
+;;
+
+(** Dessine le cadre autour de la matrice de jeu *)
+let draw_frame() : unit =
+  for i = 0 to 4
+  do
+    draw_rect(0 -i+mytranslation_x(),
+              0-i+mytranslation_y(),
+              ((mytranslation_x()-1)+i/mydilation_x())*mydilation_x(),
+              ((mytranslation_y()-1)+i/mydilation_y())*mydilation_y());
+    
+  done
 ;;
 
 (** Fonction auxiliaire pour dessiner le serpent *)
@@ -138,6 +150,13 @@ let init_snake_matrix() : t_snake * t_matrix =
     done;
     (snake,game_matrix);
   )
+;;
+
+(** Initialise le plateau de jeu avec le cadre et le serpent*)
+let init_play() : t_play =
+  draw_frame();
+  draw_whole_snake(init_snake());
+  {dt = {contents = mydt_acc()}; sn = {contents = init_snake()}; mat = init_matrix()}
 ;;
 
 (** Retourne la position mise a jour en fonction de la diretion en entrée
