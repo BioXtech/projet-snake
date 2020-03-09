@@ -140,6 +140,10 @@ let init_snake_matrix() : t_snake * t_matrix =
   )
 ;;
 
+(** Retourne la position mise a jour en fonction de la diretion en entrée
+   2 parametres:
+   - pos: position de la case du snake de type t_position
+   - d: direction future de la case *)
 let compute_new_position(pos, d : t_position * t_direction) : t_position =
   let x : int ref = ref pos.pt.x and y : int ref = ref pos.pt.y in
   (
