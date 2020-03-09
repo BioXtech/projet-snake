@@ -139,3 +139,20 @@ let init_snake_matrix() : t_snake * t_matrix =
     (snake,game_matrix);
   )
 ;;
+
+let compute_new_position(pos, d : t_position * t_direction) : t_position =
+  let x : int ref = ref pos.pt.x and y : int ref = ref pos.pt.y in
+  (
+    if d = UP
+    then y := !y + 1
+    else
+      if d = DOWN
+      then y := !y - 1
+      else
+        if d = LEFT
+        then x := !x - 1
+        else x := !x + 1;
+      {pt = {x = !x; y = !y}; dir = pos.dir};
+    )
+
+;;
