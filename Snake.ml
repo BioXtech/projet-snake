@@ -48,6 +48,7 @@ let myfill_rect(px, py, dx, dy : int * int * int * int) : unit =
 ;;
 
 (* Type et fonction de base *)
+
 (** Represente les coordonnees d'un point *)
 type t_point = {x : int ; y : int};;
 
@@ -60,9 +61,8 @@ type t_position = {pt : t_point ; dir : t_direction};;
 (** Reprensente la valeur d'une case *)
 type t_value = EMPTY | SNAKE | FRAME | PROBLEM ;;
 
-
 (** En fonction de la valeur de la case, donne la couleur correspondante *)
-let fonction color_of_value(x : t_value ) : t_color =
+let color_of_value(x : t_value ) : t_color =
   if x = PROBLEM
   then Graphics.black 
   else
@@ -72,6 +72,7 @@ let fonction color_of_value(x : t_value ) : t_color =
       if x = SNAKE
       then Graphics.green 
       else Graphics.white ;;
+
 
 
 (** Represente la longueur de la matrice en x*)
@@ -86,33 +87,42 @@ let mymatrix_dy() : int =
 type t_matrix = t_value matrix;;
 type t_snake = t_position list;;
 type t_play = {dt : float ref; sn : t_snake ref; mat : t_matrix};;
+
 (** Represente la vitesse initiale du serpent *)
 let mydt_init() : float =
-  0.0;;
+	0.0
+;;
+
 (** Reprensente  l'intervalle entre deux mouvements *)
 let mydt_acc() : float =
-3.0
+	3.0
 ;;
-(** Reprensente le ratio entre la nouvelle position et la précedente*)
+
+(** Reprensente le ratio entre la nouvelle position et la precedente*)
 let mydt_ratio() : float =
-0.1
+	0.1
 ;;
+
 (** Represente la longueur du serpent au point initiale *)
 let mysnake_length_init() : int =
-3
+	3
 ;;
-(** Represente les coordonnées de la position initiale du serpent *)
+(** Represente les coordonnees de la position initiale du serpent *)
 let mysnake_position_init () : t_point =
-  {x = 200; y = 200};;
+  {x = 200; y = 200}
+;;
 
 (** Dessine le cadre autour de la matrice de jeu *)
 let draw_frame() : unit =
   for i = 0 to 4
   do
-    draw_rect(0 -i+100,0-i+100,(99+i/5)*5,5*(99+i/5));
+    draw_rect(0 -i+mytranslation_x(),
+              0-i+mytranslation_y(),
+              ((mytranslation_x()-1)+i/mydilation_x())*mydilation_x(),
+              ((mytranslation_y()-1)+i/mydilation_y())*mydilation_y());
     
-  done;;
-    
+  done
+;;
 
 (** Fonction auxiliaire pour dessiner le serpent *)
 let rec draw_whole_snake_aux(s : t_snake) : t_snake =
@@ -138,4 +148,49 @@ let init_snake() : t_snake =
   [{pt = mysnake_position_init(); dir = LEFT};
     {pt = {x = (mysnake_position_init()).x + 5; y = (mysnake_position_init()).y} ; dir = LEFT};
     {pt = {x = (mysnake_position_init()).x + 10; y = (mysnake_position_init()).y}; dir = LEFT}]
+;;
+
+(** Initialise la matrice de jeu en EMPTY (en blanc)*)
+let init_matrix() : t_matrix =
+  mat_make(mymatrix_dx(),mymatrix_dy(),EMPTY)
+;;
+
+(** Insere les positions du t_snake dans la matrice de jeu globale *)
+let init_snake_matrix() : t_snake * t_matrix =
+  let snake : t_snake = init_snake() and game_matrix : t_matrix = init_matrix() in
+  (
+    for i = 0 to len(snake) - 1
+    do
+      game_matrix.((nth(snake,i)).pt.x).((nth(snake,i)).pt.y) <- SNAKE;
+    done;
+    (snake,game_matrix);
+  )
+;;
+
+(** Initialise le plateau de jeu avec le cadre et le serpent*)
+let init_play() : t_play =
+  draw_frame();
+  draw_whole_snake(init_snake());
+  {dt = {contents = mydt_acc()}; sn = {contents = init_snake()}; mat = init_matrix()}
+;;
+
+(** Retourne la position mise a jour en fonction de la diretion en entrée
+   2 parametres:
+   - pos: position de la case du snake de type t_position
+   - d: direction future de la case *)
+let compute_new_position(pos, d : t_position * t_direction) : t_position =
+  let x : int ref = ref pos.pt.x and y : int ref = ref pos.pt.y in
+  (
+    if d = UP
+    then y := !y + 1
+    else
+      if d = DOWN
+      then y := !y - 1
+      else
+        if d = LEFT
+        then x := !x - 1
+        else x := !x + 1;
+      {pt = {x = !x; y = !y}; dir = pos.dir};
+    )
+
 ;;
