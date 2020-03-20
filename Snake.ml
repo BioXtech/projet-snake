@@ -156,7 +156,7 @@ let init_snake_matrix() : t_snake * t_matrix =
 let init_play() : t_play =
   draw_frame();
   draw_whole_snake(init_snake());
-  {dt = {contents = mydt_acc()}; sn = {contents = init_snake()}; mat = init_matrix()}
+  {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_matrix()}
 ;;
 
 (** Retourne la position mise a jour en fonction de la diretion en entrée
@@ -177,5 +177,7 @@ let compute_new_position(pos, d : t_position * t_direction) : t_position =
         else x := !x + 1;
       {pt = {x = !x; y = !y}; dir = pos.dir};
     )
-
 ;;
+
+(*let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position * t_value =*)
+  
