@@ -174,7 +174,7 @@ let init_play() : t_play =
   {dt = {contents = mydt_acc()}; sn = {contents = init_snake()}; mat = init_matrix()}
 ;;
 
-(** Retourne la position mise a jour en fonction de la diretion en entrÃ©e
+(** Retourne la position mise a jour en fonction de la diretion en entrée
    2 parametres:
    - pos: position de la case du snake de type t_position
    - d: direction future de la case *)
