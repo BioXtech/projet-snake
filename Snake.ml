@@ -1,5 +1,6 @@
 #use "CPinter_sn.ml";;
 open_graph(700,700);;
+
 (** Retourne le coefficiant de translation sur x *)
 let mytranslation_x() : int =
   100
@@ -22,12 +23,12 @@ let mydilation_y() : int =
 
 (** Retourne la coordonnee x d'un pixel *)
 let mygraphic_x(x : int) : int =
-  mytranslation_x() + x
+  mytranslation_x() + x * mydilation_x()
 ;;
 
 (** Retourne la coordonnee y d'un pixel *)
 let mygraphic_y(y : int) : int =
-  mytranslation_y() + y
+  mytranslation_y() + y * mydilation_y()
 ;;
 
 (** Affiche dans la fenetre d'affichage un rectangle correspondant a un pixel donne en parametre
@@ -68,10 +69,10 @@ let color_of_value(x : t_value ) : t_color =
 
 
 let mymatrix_dx() : int =
-  500;;
+  100;;
 
 let mymatrix_dy() : int =
-  500;;
+  100;;
 
 
 type t_matrix = t_value matrix;;
@@ -79,7 +80,7 @@ type t_snake = t_position list;;
 type t_play = {dt : float ref; sn : t_snake ref; mat : t_matrix};;
 
 let mydt_init() : float =
-  0.0;;
+  0.1;;
 
 let mydt_acc() : float =
   3.0
@@ -94,25 +95,21 @@ let mysnake_length_init() : int =
 ;;
 
 let mysnake_position_init () : t_point =
-  {x = 200; y = 200}
+  {x = 20; y = 20}
 ;;
 
 (** Dessine le cadre autour de la matrice de jeu *)
 let draw_frame() : unit =
-  for i = 0 to 4
-  do
-    draw_rect(0 -i+mytranslation_x(),
-              0-i+mytranslation_y(),
-              ((mytranslation_x()-1)+i/mydilation_x())*mydilation_x(),
-              ((mytranslation_y()-1)+i/mydilation_y())*mydilation_y());
-    
-  done
+  myfill_rect(0, 0, 1 ,mymatrix_dy());
+  myfill_rect(0, 0, mymatrix_dx(), 1);
+  myfill_rect(0, mymatrix_dy(), mymatrix_dx() + 1 ,1);
+  myfill_rect(mymatrix_dx(), 0, 1 ,mymatrix_dy() + 1);
 ;;
 
 (** Fonction auxiliaire pour dessiner le serpent *)
-let rec draw_whole_snake_aux(s : t_snake) : t_snake =
+let rec draw_whole_snake_aux(s : t_snake) : unit =
   if s = []
-  then []
+  then ()
   else
     (
       myplot((fst(s)).pt.x,(fst(s)).pt.y);
@@ -124,15 +121,19 @@ let rec draw_whole_snake_aux(s : t_snake) : t_snake =
 let draw_whole_snake(s : t_snake) : unit =
   set_color(Graphics.green);
   draw_whole_snake_aux(s);
-  ();
 ;;
 
-      
+(** Fonction auxilliaire de init_snake() *)
+let rec init_snake_aux(i : int) : t_snake =
+  if i = 1
+  then [{pt = {x = (mysnake_position_init()).x;
+               y = (mysnake_position_init()).y}; dir = LEFT}]
+  else add_lst(init_snake_aux(i - 1),{pt = {x = (mysnake_position_init()).x -1 + i;
+                      y = (mysnake_position_init()).y} ; dir = LEFT})
+
 (** Initialise le serpent au debut du jeu *)
 let init_snake() : t_snake =
-  [{pt = mysnake_position_init(); dir = LEFT};
-    {pt = {x = (mysnake_position_init()).x + 5; y = (mysnake_position_init()).y} ; dir = LEFT};
-    {pt = {x = (mysnake_position_init()).x + 10; y = (mysnake_position_init()).y}; dir = LEFT}]
+  init_snake_aux(mysnake_length_init())
 ;;
 
 (** Initialise la matrice de jeu en EMPTY (en blanc)*)
@@ -140,6 +141,7 @@ let init_matrix() : t_matrix =
   mat_make(mymatrix_dx(),mymatrix_dy(),EMPTY)
 ;;
 
+(*voir pour l'efficacite*)
 (** Insere les positions du t_snake dans la matrice de jeu globale *)
 let init_snake_matrix() : t_snake * t_matrix =
   let snake : t_snake = init_snake() and game_matrix : t_matrix = init_matrix() in
@@ -159,7 +161,7 @@ let init_play() : t_play =
   {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_matrix()}
 ;;
 
-(** Retourne la position mise a jour en fonction de la diretion en entrée
+(** Retourne la position mise a jour en fonction de la direction en entrée.
    2 parametres:
    - pos: position de la case du snake de type t_position
    - d: direction future de la case *)
@@ -179,5 +181,5 @@ let compute_new_position(pos, d : t_position * t_direction) : t_position =
     )
 ;;
 
-(*let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position * t_value =*)
-  
+let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position * t_value =
+  let pos
