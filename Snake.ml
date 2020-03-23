@@ -181,5 +181,27 @@ let compute_new_position(pos, d : t_position * t_direction) : t_position =
     )
 ;;
 
+(** Reetourne la nouvelle position en fonction de la direction donnee en parametre et al valeur de la case dans la matrice de jeu
+    3 parametres:
+    - pos: la position initiale
+    - dir: la direction
+    - m: la matrice de jeu *)
 let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position * t_value =
-  let pos
+  let new_pos : t_position = compute_new_position(pos,dir) in
+  (
+    if(new_pos.pt.x < 0 || new_pos.pt.x > mymatrix_dx() || new_pos.pt.y < 0 || new_pos.pt.y > mymatrix_dy())
+    then (new_pos,FRAME)
+    else (new_pos,m.(pos.pt.x).(pos.pt.y))
+  )
+;;
+
+let remove_snake_tail(pl : t_play) : unit =
+  let pos_x : int = (lst(!(pl.sn))).pt.x and pos_y : int = (lst(!(pl.sn))).pt.y and mat : t_value matrix =  pl.mat in
+  (
+    m.(pos_x).(pos_y) <- EMPTY;
+    set_color(color_of_value(EMPTY));
+    myplot(pos_x,pos_y);
+    pl.sn := rem_lst(pl.sn.contents);
+    ();
+  )
+;;
