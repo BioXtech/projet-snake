@@ -195,13 +195,23 @@ let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position
   )
 ;;
 
+(** Eneleve la case de la queue du serpent, mets a jour la matrice et efface le graphique.
+    1 parametres:
+    - pl : represente le plateau de jeu *)
 let remove_snake_tail(pl : t_play) : unit =
   let pos_x : int = (lst(!(pl.sn))).pt.x and pos_y : int = (lst(!(pl.sn))).pt.y and mat : t_value matrix =  pl.mat in
   (
-    m.(pos_x).(pos_y) <- EMPTY;
+    mat.(pos_x).(pos_y) <- EMPTY;
     set_color(color_of_value(EMPTY));
     myplot(pos_x,pos_y);
     pl.sn := rem_lst(pl.sn.contents);
     ();
   )
 ;;
+
+(** Ajoute la tete du serpent a la position donnee et l'affiche sur le graphique.
+    2 parametres:
+    - pl: represente le plateau de jeu
+    - newpos: nouvelle position de la tete *)
+let add_snake_newhead(pl, newpos : t_play * t_position) : unit =
+  
