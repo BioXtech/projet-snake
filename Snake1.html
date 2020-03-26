@@ -1,0 +1,459 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snake1" rel="Chapter" href="Snake1.html"><link title="Explication de la fonction handle_t_acc." rel="Section" href="#1_Explicationdelafonctionhandletacc">
+<link title="Explication de la fonction simulation." rel="Section" href="#1_Explicationdelafonctionsimulation">
+<title>Snake1</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Snake1.html">Snake1</a></h1>
+
+<pre><span class="keyword">module</span> Snake1: <code class="code">sig</code> <a href="Snake1.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<b>Ce fichier est la première version du jeu snake. Il est composé des différentes fonctions et type utilisés pour réaliser le jeu.</b><br>
+<b>Version:</b> 1.0<br>
+</div>
+<hr width="100%">
+<br>
+<b>Ce fichier est la première version du jeu snake. Il est composé des différentes fonctions et type utilisés pour réaliser le jeu.</b><br>
+
+<pre><span id="VALmytranslation_x"><span class="keyword">val</span> mytranslation_x</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Fonction qui donne la valeur constante de décalage sur x.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> retourne la valeur de décalage sur x de la matrice de jeu.<br>
+</div>
+
+<pre><span id="VALmytranslation_y"><span class="keyword">val</span> mytranslation_y</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Fonction qui donne la valeur constante de décalage sur y.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> retourne la valeur de décalage sur y de la matrice de jeu.<br>
+</div>
+
+<pre><span id="VALmydilation_x"><span class="keyword">val</span> mydilation_x</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Fonction qui donne le coefficiant constant de dilatation sur x.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la valeur du coefficiant de dilatation sur x de la matrice de jeu.<br>
+</div>
+
+<pre><span id="VALmydilation_y"><span class="keyword">val</span> mydilation_y</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Fonction qui donne le coefficiant constant de dilatation sur y.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la valeur du coefficiant de dilatation sur y de la matrice de jeu.<br>
+</div>
+
+<pre><span id="VALmygraphic_x"><span class="keyword">val</span> mygraphic_x</span> : <code class="type">int -> int</code></pre><div class="info ">
+Fonction qui calcule la coordonnee x d'un pixel avec son décalage et son coefficiant de dilatation.<br>
+<b>Author(s):</b> Duc.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> coordonnée du pixel sur x.<br>
+</div>
+
+<pre><span id="VALmygraphic_y"><span class="keyword">val</span> mygraphic_y</span> : <code class="type">int -> int</code></pre><div class="info ">
+Fonction qui calcule la coordonnee y d'un pixel avec son décalage et son coefficiant de dilatation.<br>
+<b>Author(s):</b> Duc.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> coordonnée du pixel sur y.<br>
+</div>
+
+<pre><span id="VALmyplot"><span class="keyword">val</span> myplot</span> : <code class="type">int * int -> unit</code></pre><div class="info ">
+Affiche dans la fenetre d'affichage un rectangle correspondant à un pixel donné en paramètre.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+<div class="param_info"><code class="code">(x,y)</code> : <code>y</code> : coordonnee sur y du pixel.<br>
+<code>x</code> : coordonnee sur x du pixel.</div>
+
+<pre><span id="VALmyfill_rect"><span class="keyword">val</span> myfill_rect</span> : <code class="type">int * int * int * int -> unit</code></pre><div class="info ">
+Trace dans la fenetre d'affichage le rectangle vide.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+<div class="param_info"><code class="code">(px,py,dx,dy)</code> : <code>dy</code> : longueur du côté sur y.<br>
+<code>dx</code> : longueur du côté sur x.<br>
+<code>py</code> : coordonnee y du point en bas a gauche.<br>
+<code>px</code> : coordonnee x du point en bas a gauche.</div>
+
+<pre><code><span id="TYPEt_point"><span class="keyword">type</span> <code class="type"></code>t_point</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_point.x">x</span>&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Coordonnée sur l'abscisse du point.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_point.y">y</span>&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Coordonnée sur l'ordonnée du point.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info ">
+Represente les coordonnées d'un point.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><code><span id="TYPEt_direction"><span class="keyword">type</span> <code class="type"></code>t_direction</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_direction.UP"><span class="constructor">UP</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_direction.DOWN"><span class="constructor">DOWN</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_direction.RIGHT"><span class="constructor">RIGHT</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_direction.LEFT"><span class="constructor">LEFT</span></span></code></td>
+
+</tr></table>
+
+<div class="info ">
+Represente la direction que prend le serpent.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><code><span id="TYPEt_position"><span class="keyword">type</span> <code class="type"></code>t_position</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_position.pt">pt</span>&nbsp;: <code class="type"><a href="Snake1.html#TYPEt_point">t_point</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Represente les coordonnées de la position.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_position.dir">dir</span>&nbsp;: <code class="type"><a href="Snake1.html#TYPEt_direction">t_direction</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Represente la direction dans laquelle la case du serpent va.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info ">
+Represente la position du serpent et la direction.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><code><span id="TYPEt_value"><span class="keyword">type</span> <code class="type"></code>t_value</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_value.EMPTY"><span class="constructor">EMPTY</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_value.SNAKE"><span class="constructor">SNAKE</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_value.FRAME"><span class="constructor">FRAME</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_value.PROBLEM"><span class="constructor">PROBLEM</span></span></code></td>
+
+</tr></table>
+
+<div class="info ">
+Reprensente la valeur d'une case<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><span id="VALcolor_of_value"><span class="keyword">val</span> color_of_value</span> : <code class="type"><a href="Snake1.html#TYPEt_value">t_value</a> -> CPutil_sn.t_color</code></pre><div class="info ">
+En fonction de la valeur de la case, donne la couleur correspondante.<br>
+<b>Author(s):</b> Duc.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la couleur de la case.<br>
+</div>
+
+<pre><span id="VALmymatrix_dx"><span class="keyword">val</span> mymatrix_dx</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Représente la longueur de la matrice en x.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la valeur de la longueur de la matrice en x.<br>
+</div>
+
+<pre><span id="VALmymatrix_dy"><span class="keyword">val</span> mymatrix_dy</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Représente la longueur de la matrice en y.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la valeur de la longueur de la matrice en y.<br>
+</div>
+
+<pre><span id="TYPEt_matrix"><span class="keyword">type</span> <code class="type"></code>t_matrix</span> = <code class="type"><a href="Snake1.html#TYPEt_value">t_value</a> CPutil_sn.matrix</code> </pre>
+<div class="info ">
+Représente la matrice de jeu.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><span id="TYPEt_snake"><span class="keyword">type</span> <code class="type"></code>t_snake</span> = <code class="type"><a href="Snake1.html#TYPEt_position">t_position</a> list</code> </pre>
+<div class="info ">
+Représente le serpent qui est une liste de postition.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><code><span id="TYPEt_play"><span class="keyword">type</span> <code class="type"></code>t_play</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_play.dt">dt</span>&nbsp;: <code class="type">float Pervasives.ref</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Vitesse du serpent.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_play.sn">sn</span>&nbsp;: <code class="type"><a href="Snake1.html#TYPEt_snake">t_snake</a> Pervasives.ref</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Serpent<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt_play.mat">mat</span>&nbsp;: <code class="type"><a href="Snake1.html#TYPEt_matrix">t_matrix</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Matrice de jeu contenant les cases<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info ">
+Représente le jeu avec sa vitesse, le serpent et la matrice de jeu.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+
+<pre><span id="VALmydt_init"><span class="keyword">val</span> mydt_init</span> : <code class="type">unit -> float</code></pre><div class="info ">
+Fonction qui donne la vitesse initiale du serpent.<br>
+<b>Author(s):</b> Duc, Guillaume<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la valeur de la vitesse initiale.<br>
+</div>
+
+<pre><span id="VALmydt_acc"><span class="keyword">val</span> mydt_acc</span> : <code class="type">unit -> float</code></pre><div class="info ">
+Fonction qui donne l'intervalle de temps entre deux modifications de la vitesse.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la valeur de l'intervalle.<br>
+</div>
+
+<pre><span id="VALmydt_ratio"><span class="keyword">val</span> mydt_ratio</span> : <code class="type">unit -> float</code></pre><div class="info ">
+Fonction qui donne le ratio entre l'ancienne et la nouvelle vitessse.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> le ratio de vitesse.<br>
+</div>
+
+<pre><span id="VALmysnake_length_init"><span class="keyword">val</span> mysnake_length_init</span> : <code class="type">unit -> int</code></pre><div class="info ">
+Fonction qui donne la longueur initiale du serpent.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la longueur initiale du serpent.<br>
+</div>
+
+<pre><span id="VALmysnake_position_init"><span class="keyword">val</span> mysnake_position_init</span> : <code class="type">unit -> <a href="Snake1.html#TYPEt_point">t_point</a></code></pre><div class="info ">
+Fonction qui donne les coordonnées de la position initiale du serpent.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> les coordonnées intiales du serpent.<br>
+</div>
+
+<pre><span id="VALdraw_frame"><span class="keyword">val</span> draw_frame</span> : <code class="type">unit -> unit</code></pre><div class="info ">
+Fonction qui dessine le cadre autour de la matrice de jeu.<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+<pre><span id="VALdraw_whole_snake_aux"><span class="keyword">val</span> draw_whole_snake_aux</span> : <code class="type"><a href="Snake1.html#TYPEt_snake">t_snake</a> -> unit</code></pre><div class="info ">
+Fonction auxiliaire à draw_whole_snake() pour dessiner le serpent.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+<pre><span id="VALdraw_whole_snake"><span class="keyword">val</span> draw_whole_snake</span> : <code class="type"><a href="Snake1.html#TYPEt_snake">t_snake</a> -> unit</code></pre><div class="info ">
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0
+    Fonction qui dessine la totalité du serpent.<br>
+</div>
+
+<pre><span id="VALinit_snake_aux"><span class="keyword">val</span> init_snake_aux</span> : <code class="type">int -> <a href="Snake1.html#TYPEt_snake">t_snake</a></code></pre><div class="info ">
+Fonction auxilliaire de init_snake().<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> le serpent.<br>
+</div>
+
+<pre><span id="VALinit_snake"><span class="keyword">val</span> init_snake</span> : <code class="type">unit -> <a href="Snake1.html#TYPEt_snake">t_snake</a></code></pre><div class="info ">
+Fonction qui initialise le serpent au début du jeu.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> le serpent.<br>
+</div>
+
+<pre><span id="VALinit_matrix"><span class="keyword">val</span> init_matrix</span> : <code class="type">unit -> <a href="Snake1.html#TYPEt_matrix">t_matrix</a></code></pre><div class="info ">
+Fonction qui initialise la matrice de jeu en EMPTY (en blanc).<br>
+<b>Author(s):</b> Duc.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la matrice de jeu.<br>
+</div>
+
+<pre><span id="VALinit_snake_matrix"><span class="keyword">val</span> init_snake_matrix</span> : <code class="type">unit -> <a href="Snake1.html#TYPEt_snake">t_snake</a> * <a href="Snake1.html#TYPEt_matrix">t_matrix</a></code></pre><div class="info ">
+Fonction qui insère les positions du serpent dans la matrice de jeu globale.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> le serpent et la matrice de jeu.<br>
+</div>
+
+<pre><span id="VALinit_play"><span class="keyword">val</span> init_play</span> : <code class="type">unit -> <a href="Snake1.html#TYPEt_play">t_play</a></code></pre><div class="info ">
+Fonction qui initialise le plateau de jeu avec le cadre et le serpent<br>
+<b>Author(s):</b> Duc, Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> le plateau de jeu.<br>
+</div>
+
+<pre><span id="VALcompute_new_position"><span class="keyword">val</span> compute_new_position</span> : <code class="type"><a href="Snake1.html#TYPEt_position">t_position</a> * <a href="Snake1.html#TYPEt_direction">t_direction</a> -> <a href="Snake1.html#TYPEt_position">t_position</a></code></pre><div class="info ">
+Fonction qui met à jour la position d'une case du serpent en fonction de la direction en entrée.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la position mise à jour de la case en entrée.<br>
+</div>
+<div class="param_info"><code class="code">(pos,d)</code> : <code>d</code> : direction de la case.<br>
+<code>pos</code> : position de la case du serpent.</div>
+
+<pre><span id="VALcompute_move"><span class="keyword">val</span> compute_move</span> : <code class="type"><a href="Snake1.html#TYPEt_position">t_position</a> * <a href="Snake1.html#TYPEt_direction">t_direction</a> * <a href="Snake1.html#TYPEt_matrix">t_matrix</a> -><br>       <a href="Snake1.html#TYPEt_position">t_position</a> * <a href="Snake1.html#TYPEt_value">t_value</a></code></pre><div class="info ">
+Fonction qui met à jour la position d'une case en fonction de la direction donnée et la valeur de la case dans la matrice de jeu.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> la case mise à jour et la matrice mise à jour.<br>
+</div>
+<div class="param_info"><code class="code">(pos,dir,m)</code> : <code>m</code> : la matrice de jeu.<br>
+<code>dir</code> : la direction de la case.<br>
+<code>pos</code> : la position initiale de la case.</div>
+
+<pre><span id="VALremove_snake_tail"><span class="keyword">val</span> remove_snake_tail</span> : <code class="type"><a href="Snake1.html#TYPEt_play">t_play</a> -> unit</code></pre><div class="info ">
+Fonction qui enelève la case de la queue du serpent, met à jour la matrice de jeu et efface la case du graphique.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+
+<pre><span id="VALadd_snake_newhead"><span class="keyword">val</span> add_snake_newhead</span> : <code class="type"><a href="Snake1.html#TYPEt_play">t_play</a> * <a href="Snake1.html#TYPEt_position">t_position</a> -> unit</code></pre><div class="info ">
+Fonction qui ajoute la tête du serpent à la position donnée et l'affiche sur le graphique.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+<div class="param_info"><code class="code">(pl,newpos)</code> : <code>newpos</code> : nouvelle position de la tête.<br>
+<code>pl</code> : représente le plateau de jeu.</div>
+
+<pre><span id="VALupdate_direction"><span class="keyword">val</span> update_direction</span> : <code class="type"><a href="Snake1.html#TYPEt_snake">t_snake</a> -> <a href="Snake1.html#TYPEt_snake">t_snake</a></code></pre><div class="info ">
+Fonction auxiliaire qui met à jour les différentes direction de chaque case du snake.<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+<b>Returns</b> le serpent avec les directions mises à jour.<br>
+</div>
+
+<pre><span id="VALmove_snake"><span class="keyword">val</span> move_snake</span> : <code class="type"><a href="Snake1.html#TYPEt_play">t_play</a> * <a href="Snake1.html#TYPEt_position">t_position</a> -> unit</code></pre><div class="info ">
+Fonction qui simule le déplacement du serpent dans le plateau de jeu.<br>
+<b>Author(s):</b> Duc, Guillaume<br>
+<b>Since</b> 1.0<br>
+</div>
+<div class="param_info"><code class="code">(pl,newpos)</code> : <code>newpos</code> : représente la nouvelle position du serpent.<br>
+<code>pl</code> : représente le plateau du jeu.</div>
+
+<pre><span id="VALanalyze"><span class="keyword">val</span> analyze</span> : <code class="type"><a href="Snake1.html#TYPEt_position">t_position</a> -> <a href="Snake1.html#TYPEt_direction">t_direction</a></code></pre>
+<pre><span id="VALnew_step"><span class="keyword">val</span> new_step</span> : <code class="type"><a href="Snake1.html#TYPEt_play">t_play</a> -> bool</code></pre><div class="info ">
+Fonction qui effectue une nouvelle étape de jeu<br>
+<b>Author(s):</b> Guillaume.<br>
+<b>Since</b> 1.0<br>
+</div>
+<br>
+<h1 id="1_Explicationdelafonctionhandletacc">Explication de la fonction <code class="code">handle_t_acc</code>.</h1>
+Si la différence entre le temps actuel et la dernière fois que la valeur de la vitesse à été changée est plus grande que l'intervalle de temps minimum nécessaire pour changer la valeur de la vitesse alors la vitesse prend la valeur de la vitesse actuelle multipliée par le ratio d'accélération.
+La valeur de <code class="code">t_acc</code> est remise "à zéro" ou "à l'heure" car on a changé la valeur de la vitesse.
+<p>
+
+<h1 id="1_Explicationdelafonctionsimulation">Explication de la fonction <code class="code">simulation</code>.</h1>
+ Il y a d'abord la déclaration des variables :
+ <ul>
+<li><code class="code">pl</code> : représente le plateau de jeu.</li>
+<li><code class="code">t</code> :  représente la valeur du temps au début d'un tour de boucle.</li>
+<li><code class="code">newt</code> : représente le temps actuel.</li>
+<li><code class="code">t_acc</code> : représente le temps au moment de la dernière modification de la vitesse.</li>
+<li><code class="code">thend</code> : booleen representant la fin de partie.</li>
+</ul>
+
+ Il y a une boucle principale qui permet de faire tourner le jeu avec tant que <code class="code">thend</code> est faux.
+ Dans cette boucle il y a :
+ <OL>
+<li>La valeur de <code class="code">newt</code> est mise à jour.</li>
+<li>La boucle while suivante permet de mettre halte au programme tant que il ne s'est pas passé assez de temps pour simuler la durée entre les intervalles de position avec une vitesse.</li>
+<li>A la sortie de la boucle, il s'est passé assez de temps pour faire avancer le serpent et éventuellement augmenter la vitesse avec <code class="code">handle_t_acc</code>.</li>
+<li><code class="code">thend</code> prend la valeur retournée par la fonction <code class="code">new_step</code> qui simule une étape de jeu</li>
+</OL>
+<br>
+</body></html>
