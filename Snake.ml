@@ -219,3 +219,26 @@ let add_snake_newhead(pl, newpos : t_play * t_position) : unit =
     pl.sn := add_fst(pl.sn.contents);
 ;;
 
+(** 
+
+Explication fonction handle_t_acc
+ Si la difference entre le temps actuel et la derniere fois que la valeur de la vitesse a ete changee est plus grande que l'intervalle de temps minimum necessaire pour changer la valeur de la vitesse alors
+ la vitesse prend la valeur de la vitesse actuelle multipliee par le ratio d'acceleration
+La valeur de t_acc est remise "a zero" ou "l'heure" car on a change la valeur de la vitesse
+
+Explication fonction simulation
+ Declaration des variables :
+ pl: represente la partie
+ t, newt et t_acc: prennent la valeur du temps actuel
+ t va representer la valeur du temps au debut d'un tour de boucle
+ newt va representer le temps actuel
+ t_acc va representer le temps au moment de la derniere modification de la vitesse
+ thend : booleen representant la fin de partie
+
+ Il y a une boucle principale qui permet de faire tourner le jeu avec comme condition que thend soit faux
+ Dans cette boucle il y a :
+      on actualise newt
+      la boucle while suivante permet de mettre halte au programme tant que il ne s'est pas passe assez de temps pour egaler le temps qu'il se serait passe avec la vitesse en realite
+      Quand on sort de la boucle le temps, il s'est passe assez de temps pour faire avancer le snake et eventuellement changer la vitesse
+      thend prend la valeur retournee par la fonction new_step qui simule une etape de jeu
+ *)
