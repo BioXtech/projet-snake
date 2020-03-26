@@ -1,7 +1,7 @@
 #use "CPtest_sn.ml";;
 #use "Snake.ml";;
 
-(* Nous vérifions ici si la valeur de sortie correspond bien à la valeur calculée *)
+(* Nous verifions ici si la valeur de sortie correspond bien a la valeur calculee *)
 let test_mygraphic_x_functionnal() : unit =
   let test_status : t_test_status  = create_test_status("mygraphic_x") in
   (
