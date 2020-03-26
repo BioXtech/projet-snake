@@ -1,60 +1,112 @@
-#use "CPinter_sn.ml";;
+(*#use "CPinter_sn.ml";;*)
+open CPutil_sn;;
 open_graph(700,700);;
+(** Ce fichier est la première version du jeu snake. Il est composé des différentes fonctions et type utilisés pour réaliser le jeu.
+    @version 1.0
+ *)
 
-(** Retourne le coefficiant de translation sur x *)
+(** @author Duc
+    @author Guillaume
+    ---
+    Fonction qui donne la valeur constante de décalage sur x.
+    @return retourne la valeur de décalage sur x de la matrice de jeu.
+**)
 let mytranslation_x() : int =
   100
 ;;
 
-(** Retourne le coefficiant de translation sur y *)
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne la valeur constante de décalage sur y.
+    @return retourne la valeur de décalage sur y de la matrice de jeu.
+*)
 let mytranslation_y() : int =
   100
 ;;
 
-(** Retourne le coefficiant de translation sur x *)
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne le coefficiant constant de dilatation sur x.
+    @return la valeur du coefficiant de dilatation sur x de la matrice de jeu.
+*)
 let mydilation_x() : int =
   5
 ;;
 
-(** Retourne le coefficant de translation sur y *)
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne le coefficiant constant de dilatation sur y. 
+    @return la valeur du coefficiant de dilatation sur y de la matrice de jeu.
+*)
 let mydilation_y() : int =
   5
 ;;
 
-(** Retourne la coordonnee x d'un pixel *)
+(** @author Duc
+    Fonction qui calcule la coordonnee x d'un pixel avec son décalage et son coefficiant de dilatation.
+    @param x coordonnée du pixel sur x.
+    @return coordonnée du pixel sur x.
+*)
 let mygraphic_x(x : int) : int =
   mytranslation_x() + x * mydilation_x()
 ;;
 
-(** Retourne la coordonnee y d'un pixel *)
+(** @author Duc
+    Fonction qui calcule la coordonnee y d'un pixel avec son décalage et son coefficiant de dilatation.
+    @param y coordonnée du pixel sur y.
+    @return coordonnée du pixel sur y.
+*)
 let mygraphic_y(y : int) : int =
   mytranslation_y() + y * mydilation_y()
 ;;
 
-(** Affiche dans la fenetre d'affichage un rectangle correspondant a un pixel donne en parametre
-    2 parametres :
-    - x : coordonnee sur x du pixel
-    - y : coordonnee sur y du pixel *)
+(** @author Guillaume
+    Affiche dans la fenetre d'affichage un rectangle correspondant à un pixel donné en paramètre.
+    @param x coordonnee sur x du pixel.
+    @param y coordonnee sur y du pixel.
+*)
 let myplot(x,y : int * int) : unit =
   fill_rect(mygraphic_x(x),mygraphic_y(y),mydilation_x(),mydilation_y());
 ;;
 
 
-(** Trace dans la fenetre d'affichage le rectangle vide
-    4 parametres :
-    - px, py : coordonnee du point en bas a gauche
-    - dx, dy : longueurs des cotes *)
+(** @author Guillaume
+    Trace dans la fenetre d'affichage le rectangle vide.
+    @param px coordonnee x du point en bas a gauche.
+    @param py coordonnee y du point en bas a gauche.
+    @param dx longueur du côté sur x.
+    @param dy longueur du côté sur y.
+ *)
 let myfill_rect(px, py, dx, dy : int * int * int * int) : unit =
   fill_rect(mygraphic_x(px), mygraphic_y(py),mydilation_x() * dx,mydilation_y() * dy);
 ;;
 
 (* Type et fonction de base *)
 
-type t_point = {x : int ; y : int};;
+(** Represente les coordonnées d'un point. *)
+type t_point = {
+    x : int; (** Coordonnée sur l'abscisse du point. *) 
+    y : int  (** Coordonnée sur l'ordonnée du point. *)
+};;
+
+
+(** Represente la direction que prend le serpent. *)
 type t_direction = UP | DOWN | RIGHT | LEFT;;
-type t_position = {pt : t_point ; dir : t_direction};;
+
+(** Represente la position du serpent et la direction.*)
+type t_position = {
+    pt : t_point; (** Represente les coordonnées de la position. *)
+    dir : t_direction (** Represente la direction dans laquelle la case du serpent va. *)
+};;
+
+(** Reprensente la valeur d'une case *)
 type t_value = EMPTY | SNAKE | FRAME | PROBLEM ;;
 
+(** @author Duc
+    En fonction de la valeur de la case, donne la couleur correspondante.
+    @param x type de la case.
+    @return la couleur de la case.
+ *)
 let color_of_value(x : t_value ) : t_color =
   if x = PROBLEM
   then Graphics.black 
@@ -67,38 +119,82 @@ let color_of_value(x : t_value ) : t_color =
       else Graphics.white ;;
 
 
-
+(** @author Duc
+    @author Guillaume
+    Représente la longueur de la matrice en x.
+    @return la valeur de la longueur de la matrice en x.
+*)
 let mymatrix_dx() : int =
   100;;
 
+(** @author Duc
+    @author Guillaume
+    Représente la longueur de la matrice en y.
+    @return la valeur de la longueur de la matrice en y.
+*)
 let mymatrix_dy() : int =
   100;;
 
-
+(** Représente la matrice de jeu. *)
 type t_matrix = t_value matrix;;
-type t_snake = t_position list;;
-type t_play = {dt : float ref; sn : t_snake ref; mat : t_matrix};;
 
+(** Représente le serpent qui est une liste de postition. *)
+type t_snake = t_position list;;
+
+(** Représente le jeu avec sa vitesse, le serpent et la matrice de jeu. *)
+type t_play = {
+    dt : float ref;(** Vitesse du serpent. *)
+    sn : t_snake ref;(** Serpent *)
+    mat : t_matrix(** Matrice de jeu contenant les cases *)
+  };;
+
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne la vitesse initiale du serpent.
+    @return la valeur de la vitesse initiale.
+*)
 let mydt_init() : float =
   0.1;;
 
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne l'intervalle de temps entre deux modifications de la vitesse.
+    @return la valeur de l'intervalle.
+ *)
 let mydt_acc() : float =
   3.0
 ;;
 
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne le ratio entre l'ancienne et la nouvelle vitessse.
+    @return le ratio de vitesse.
+*)
 let mydt_ratio() : float =
   0.1
 ;;
 
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne la longueur initiale du serpent.
+    @return la longueur initiale du serpent.
+ *)
 let mysnake_length_init() : int =
 3
 ;;
 
+(** @author Duc
+    @author Guillaume
+    Fonction qui donne les coordonnées de la position initiale du serpent.
+    @return les coordonnées intiales du serpent.
+ *)
 let mysnake_position_init () : t_point =
   {x = 20; y = 20}
 ;;
 
-(** Dessine le cadre autour de la matrice de jeu *)
+(** @author Duc
+    @author Guillaume
+    Fonction qui dessine le cadre autour de la matrice de jeu. *)
 let draw_frame() : unit =
   myfill_rect(0, 0, 1 ,mymatrix_dy());
   myfill_rect(0, 0, mymatrix_dx(), 1);
@@ -106,7 +202,10 @@ let draw_frame() : unit =
   myfill_rect(mymatrix_dx(), 0, 1 ,mymatrix_dy() + 1);
 ;;
 
-(** Fonction auxiliaire pour dessiner le serpent *)
+(** @author Guillaume
+    Fonction auxiliaire à <code>draw_whole_snake()</code> pour dessiner le serpent.
+    @param s liste de positions représentant le serpent.
+ *)
 let rec draw_whole_snake_aux(s : t_snake) : unit =
   if s = []
   then ()
@@ -117,13 +216,20 @@ let rec draw_whole_snake_aux(s : t_snake) : unit =
     )
 ;;
 
-(** Dessine la totalite du serpent *)
+(** @author Guillaume
+    Fonction qui dessine la totalité du serpent.
+    @param s liste de positions représentant le serpent.
+ *)
 let draw_whole_snake(s : t_snake) : unit =
   set_color(Graphics.green);
   draw_whole_snake_aux(s);
 ;;
 
-(** Fonction auxilliaire de init_snake() *)
+(** @author Guillaume
+    Fonction auxilliaire de <code>init_snake()</code>.
+    @param i longueur initiale du serpent.
+    @return le serpent.
+*)
 let rec init_snake_aux(i : int) : t_snake =
   if i = 1
   then [{pt = {x = (mysnake_position_init()).x;
@@ -131,18 +237,27 @@ let rec init_snake_aux(i : int) : t_snake =
   else add_lst(init_snake_aux(i - 1),{pt = {x = (mysnake_position_init()).x -1 + i;
                       y = (mysnake_position_init()).y} ; dir = LEFT})
 
-(** Initialise le serpent au debut du jeu *)
+(** @author Guillaume
+    Fonction qui initialise le serpent au début du jeu.
+    @return le serpent.
+ *)
 let init_snake() : t_snake =
   init_snake_aux(mysnake_length_init())
 ;;
 
-(** Initialise la matrice de jeu en EMPTY (en blanc)*)
+(** @author Duc
+    Fonction qui initialise la matrice de jeu en EMPTY (en blanc).
+    @return la matrice de jeu.
+*)
 let init_matrix() : t_matrix =
   mat_make(mymatrix_dx(),mymatrix_dy(),EMPTY)
 ;;
 
 (*voir pour l'efficacite*)
-(** Insere les positions du t_snake dans la matrice de jeu globale *)
+(** @author Guillaume
+    Fonction qui insère les positions du serpent dans la matrice de jeu globale.
+    @return le serpent et la matrice de jeu.
+ *)
 let init_snake_matrix() : t_snake * t_matrix =
   let snake : t_snake = init_snake() and game_matrix : t_matrix = init_matrix() in
   (
@@ -154,17 +269,23 @@ let init_snake_matrix() : t_snake * t_matrix =
   )
 ;;
 
-(** Initialise le plateau de jeu avec le cadre et le serpent*)
+(** @author Duc
+    @author Guillaume
+    Fonction qui initialise le plateau de jeu avec le cadre et le serpent
+    @return le plateau de jeu.
+*)
 let init_play() : t_play =
   draw_frame();
   draw_whole_snake(init_snake());
   {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_matrix()}
 ;;
 
-(** Retourne la position mise a jour en fonction de la direction en entrée.
-   2 parametres:
-   - pos: position de la case du snake de type t_position
-   - d: direction future de la case *)
+(** @author Guillaume
+    Fonction qui met à jour la position d'une case du serpent en fonction de la direction en entrée.
+    @param pos position de la case du serpent.
+    @param d direction de la case.
+    @return la position mise à jour de la case en entrée.
+*)
 let compute_new_position(pos, d : t_position * t_direction) : t_position =
   let x : int ref = ref pos.pt.x and y : int ref = ref pos.pt.y in
   (
@@ -181,11 +302,13 @@ let compute_new_position(pos, d : t_position * t_direction) : t_position =
     )
 ;;
 
-(** Reetourne la nouvelle position en fonction de la direction donnee en parametre et la valeur de la case dans la matrice de jeu
-    3 parametres:
-    - pos: la position initiale
-    - dir: la direction
-    - m: la matrice de jeu *)
+(** @author Guillaume
+    Fonction qui met à jour la position d'une case en fonction de la direction donnée et la valeur de la case dans la matrice de jeu.
+    @param pos la position initiale de la case.
+    @param dir la direction de la case.
+    @param m la matrice de jeu. 
+    @return la case mise à jour et la matrice mise à jour.
+*)
 let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position * t_value =
   let new_pos : t_position = compute_new_position(pos,dir) in
   (
@@ -195,9 +318,10 @@ let compute_move(pos, dir, m : t_position * t_direction * t_matrix) : t_position
   )
 ;;
 
-(** Eneleve la case de la queue du serpent, mets a jour la matrice et efface le graphique.
-    1 parametre:
-    - pl : represente le plateau de jeu *)
+(** @author Guillaume
+    Fonction qui enelève la case de la queue du serpent, met à jour la matrice de jeu et efface la case du graphique.
+    @param pl représente le plateau de jeu. 
+*)
 let remove_snake_tail(pl : t_play) : unit =
   let pos_x : int = (lst(!(pl.sn))).pt.x and pos_y : int = (lst(!(pl.sn))).pt.y and mat : t_value matrix =  pl.mat in
   (
@@ -208,10 +332,11 @@ let remove_snake_tail(pl : t_play) : unit =
   )
 ;;
 
-(** Ajoute la tete du serpent a la position donnee et l'affiche sur le graphique.
-    2 parametres:
-    - pl: represente le plateau de jeu
-    - newpos: nouvelle position de la tete *)
+(** @author Guillaume
+    Fonction qui ajoute la tête du serpent à la position donnée et l'affiche sur le graphique.
+    @param pl représente le plateau de jeu.
+    @param newpos nouvelle position de la tête. 
+*)
 let add_snake_newhead(pl, newpos : t_play * t_position) : unit =
     pl.mat.(newpos.pt.x).(newpos.pt.y) <- SNAKE;
     set_color(color_of_value(SNAKE));
@@ -221,24 +346,25 @@ let add_snake_newhead(pl, newpos : t_play * t_position) : unit =
 
 (** 
 
-Explication fonction handle_t_acc
- Si la difference entre le temps actuel et la derniere fois que la valeur de la vitesse a ete changee est plus grande que l'intervalle de temps minimum necessaire pour changer la valeur de la vitesse alors
- la vitesse prend la valeur de la vitesse actuelle multipliee par le ratio d'acceleration
-La valeur de t_acc est remise "a zero" ou "l'heure" car on a change la valeur de la vitesse
+<h1>Explication de la fonction <code>handle_t_acc</code>.</h1>
+<center>Si la différence entre le temps actuel et la dernière fois que la valeur de la vitesse à été changée est plus grande que l'intervalle de temps minimum nécessaire pour changer la valeur de la vitesse alors la vitesse prend la valeur de la vitesse actuelle multipliée par le ratio d'accélération.</center>
+<h5>La valeur de <code>t_acc</code> est remise "à zéro" ou "à l'heure" car on a changé la valeur de la vitesse.</h5>
 
-Explication fonction simulation
- Declaration des variables :
- pl: represente la partie
- t, newt et t_acc: prennent la valeur du temps actuel
- t va representer la valeur du temps au debut d'un tour de boucle
- newt va representer le temps actuel
- t_acc va representer le temps au moment de la derniere modification de la vitesse
- thend : booleen representant la fin de partie
-
- Il y a une boucle principale qui permet de faire tourner le jeu avec comme condition que thend soit faux
- Dans cette boucle il y a :
-      on actualise newt
-      la boucle while suivante permet de mettre halte au programme tant que il ne s'est pas passe assez de temps pour egaler le temps qu'il se serait passe avec la vitesse en realite
-      Quand on sort de la boucle le temps, il s'est passe assez de temps pour faire avancer le snake et eventuellement changer la vitesse
-      thend prend la valeur retournee par la fonction new_step qui simule une etape de jeu
- *)
+<h1>Explication de la fonction <code>simulation</code>.</h1>
+ <h5>Il y a d'abord la déclaration des variables :</h5>
+ <ul>
+   <li><code>pl</code> : représente le plateau de jeu.</li>
+   <li><code>t</code> :  représente la valeur du temps au début d'un tour de boucle.</li>
+   <li><code>newt</code> : représente le temps actuel.</li>
+   <li><code>t_acc</code> : représente le temps au moment de la dernière modification de la vitesse.</li>
+   <li><code>thend</code> : booleen representant la fin de partie.</li>
+ </ul>
+ <h5>Il y a une boucle principale qui permet de faire tourner le jeu avec tant que <code>thend</code> est faux.</h5>
+ <h5>Dans cette boucle il y a :</h5>
+ <ol>
+   <li>La valeur de <code>newt</code> est mise à jour.</li>
+   <li>La boucle while suivante permet de mettre halte au programme tant que il ne s'est pas passé assez de temps pour simuler la durée entre les intervalles de position avec une vitesse.</li>
+   <li>A la sortie de la boucle, il s'est passé assez de temps pour faire avancer le serpent et éventuellement augmenter la vitesse avec <code>handle_t_acc</code>.</li>
+   <li><code>thend</code> prend la valeur retournée par la fonction <code>new_step</code> qui simule une étape de jeu</li>
+ </ol>
+*)
