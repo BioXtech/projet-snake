@@ -181,7 +181,7 @@ let compute_new_position(pos, d : t_position * t_direction) : t_position =
     )
 ;;
 
-(** Reetourne la nouvelle position en fonction de la direction donnee en parametre et al valeur de la case dans la matrice de jeu
+(** Reetourne la nouvelle position en fonction de la direction donnee en parametre et la valeur de la case dans la matrice de jeu
     3 parametres:
     - pos: la position initiale
     - dir: la direction
@@ -214,9 +214,9 @@ let remove_snake_tail(pl : t_play) : unit =
     - newpos: nouvelle position de la tete *)
 let add_snake_newhead(pl, newpos : t_play * t_position) : unit =
     pl.mat.(newpos.pt.x).(newpos.pt.y) <- SNAKE;
-    set_color(color_of_value(SNAKE);
+    set_color(color_of_value(SNAKE));
     myplot(newpos.pt.x,newpos.pt.y);
-    pl.sn := add_fst(pl.sn.contents);
+    pl.sn := add_fst(!(pl.sn),newpos);
 ;;
 
 (** 
