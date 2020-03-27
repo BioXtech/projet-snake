@@ -1,7 +1,7 @@
 #use "CPtest_sn.ml";;
 #use "Snake.ml";;
 
-(** Test structurel de mygraphic_x
+(** Test fonctionnel de mygraphic_x
     @author Duc.
     @since 1.0
  *)
@@ -14,7 +14,15 @@ let test_mygraphic_x_functionnal() : unit =
     print_test_status(test_status);
   )
 ;;
+
+
 test_mygraphic_x_functionnal();;
+
+(** Test fonctionnel de mygraphic_y 
+    @author Duc.
+    @since 1.0
+ *)
+
 let test_mygraphic_y_functionnal() : unit =
   let test_status : t_test_status  = create_test_status("mygraphic_x") in
   (
@@ -26,7 +34,13 @@ let test_mygraphic_y_functionnal() : unit =
 ;;
 
 test_mygraphic_y_functionnal();;
-(** Selon la valeur du type value, on vérifie qu'elle corresponde bien à la couleur demandée *)
+
+
+(** Test strucurel de color_of_value
+Selon la valeur du type value, on vérifie qu'elle corresponde bien à la couleur demandée 
+      @author Duc.
+      @since 1.0
+*)
 
 let test_color_of_value_structural() : unit =
   let test_status : t_test_status = create_test_status("color_of_value") in
@@ -41,6 +55,12 @@ let test_color_of_value_structural() : unit =
 
 test_color_of_value_structurel();;
 
+(** Test fonctionnel de compute_new_position 
+On vérifie bien que la case attendue corresponde bien à celle calculée
+    @author Duc.
+    @since 1.0
+ *)
+
 let test_compute_new_position_functionnal() : unit =
   let test_status : t_test_status = create_test_status("ompute_new_position") in
   (
@@ -54,6 +74,11 @@ let test_compute_new_position_functionnal() : unit =
 
 test_compute_new_position_functionnal();;
 
+(** Test fonctionnel de compute_move
+On regarde si le serpent dépasse son environnement de jeu, si c'est le cas, on renvoie un OK
+    @author Duc.
+    @since 1.0
+*)
 
 let test_compute_move_functionnal() : unit =
   let test_status : t_test_status = create_test_status("compute_new_position") in
