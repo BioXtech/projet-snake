@@ -1,9 +1,9 @@
 
-(*#use "CPinter_sn.ml";;
-#use "CPsnake_misc.ml";;*)
+#use "CPinter_sn.ml";;
+#use "CPsnake_misc.ml";;
 
 
-open CPutil_sn;;
+(*open CPutil_sn;;*)
 open_graph(700,700);;
 
 (** <b>Ce fichier est la première version du jeu snake. Il est composé des différentes fonctions et type utilisés pour réaliser le jeu.</b>
@@ -320,10 +320,9 @@ let init_snake_matrix() : t_snake * t_matrix =
     @since 1.0
 *)
 let init_play() : t_play =
-  let (snake,matrix) : t_snake * t_matrix = init_snake_matrix() in
   draw_frame();
   draw_whole_snake(init_snake());
-  ({dt = {contents = mydt_init()}; sn = {contents = snake}; mat = matrix})
+  {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_snake_matrix()}
 ;;
 
 (** Fonction qui met à jour la position d'une case du serpent en fonction de la direction en entrée.
@@ -424,27 +423,6 @@ let move_snake ( pl , newpos : t_play * t_position ) : unit =
   remove_snake_tail(pl);
 ;;
 
-let analyze(pos : t_position) : t_direction =
-  let (i, j) : int * int = mouse_pos() in
-  let (k, l) : int * int = (mygraphic_x(pos.pt.x), mygraphic_y(pos.pt.y)) in
-  let v : t_direction =
-    if abs(i - k) < abs(j - l)
-    then 
-      if j > l 
-      then UP
-      else DOWN
-    else
-      if i < k
-      then LEFT
-      else RIGHT
-  in
-    if (pos.dir = UP && v = DOWN) || (pos.dir = DOWN && v = UP)
-    then if i < k then LEFT else RIGHT
-    else 
-      if (pos.dir = LEFT && v = RIGHT) || (pos.dir = RIGHT && v = LEFT)
-      then if j > l then UP else DOWN
-      else v
-;;
 
 (** Fonction qui effectue une nouvelle étape de jeu
     @param pl le plateau de jeu
