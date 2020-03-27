@@ -82,7 +82,6 @@ let myplot(x,y : int * int) : unit =
   fill_rect(mygraphic_x(x),mygraphic_y(y),mydilation_x(),mydilation_y());
 ;;
 
-
 (** Trace dans la fenetre d'affichage le rectangle vide.
     @param px coordonnee x du point en bas a gauche.
     @param py coordonnee y du point en bas a gauche.
@@ -104,7 +103,6 @@ type t_point = {
     x : int; (** Coordonnée sur l'abscisse du point. *) 
     y : int  (** Coordonnée sur l'ordonnée du point. *)
 };;
-
 
 (** Represente la direction que prend le serpent.
     @since 1.0 
@@ -277,6 +275,7 @@ let rec init_snake_aux(i : int) : t_snake =
                y = (mysnake_position_init()).y}; dir = LEFT}]
   else add_lst(init_snake_aux(i - 1),{pt = {x = (mysnake_position_init()).x -1 + i;
                       y = (mysnake_position_init()).y} ; dir = LEFT})
+;;
 
 (** Fonction qui initialise le serpent au début du jeu.
     @return le serpent.
@@ -392,6 +391,7 @@ let add_snake_newhead(pl, newpos : t_play * t_position) : unit =
     myplot(newpos.pt.x,newpos.pt.y);
     pl.sn := add_fst(!(pl.sn),newpos);
 ;;
+
 (** Fonction auxiliaire qui met à jour les différentes direction de chaque case du snake.
     @param s le serpent.
     @return le serpent avec les directions mises à jour.
@@ -422,29 +422,6 @@ let move_snake ( pl , newpos : t_play * t_position ) : unit =
   add_snake_newhead(pl,newpos);
   remove_snake_tail(pl);
 ;;
-
-let analyze(pos : t_position) : t_direction =
-  let (i, j) : int * int = mouse_pos() in
-  let (k, l) : int * int = (mygraphic_x(pos.pt.x), mygraphic_y(pos.pt.y)) in
-  let v : t_direction =
-    if abs(i - k) < abs(j - l)
-    then 
-      if j > l 
-      then UP
-      else DOWN
-    else
-      if i < k
-      then LEFT
-      else RIGHT
-  in
-    if (pos.dir = UP && v = DOWN) || (pos.dir = DOWN && v = UP)
-    then if i < k then LEFT else RIGHT
-    else 
-      if (pos.dir = LEFT && v = RIGHT) || (pos.dir = RIGHT && v = LEFT)
-      then if j > l then UP else DOWN
-      else v
-;;
-
 
 (** Fonction qui effectue une nouvelle étape de jeu
     @param pl le plateau de jeu
