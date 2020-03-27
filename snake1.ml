@@ -321,7 +321,7 @@ let init_snake_matrix() : t_snake * t_matrix =
 let init_play() : t_play =
   draw_frame();
   draw_whole_snake(init_snake());
-  {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_matrix()}
+  {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_snake_matrix()}
 ;;
 
 (** Fonction qui met à jour la position d'une case du serpent en fonction de la direction en entrée.
