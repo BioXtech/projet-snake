@@ -11,7 +11,7 @@ let test_mygraphic_x_functionnal() : unit =
     print_test_status(test_status);
   )
 ;;
-mygraphic_x();;
+test_mygraphic_x_functionnal();;
 let test_mygraphic_y_functionnal() : unit =
   let test_status : t_test_status  = create_test_status("mygraphic_x") in
   (
@@ -22,7 +22,7 @@ let test_mygraphic_y_functionnal() : unit =
   )
 ;;
 
-mygraphic_y();;
+test_mygraphic_y_functionnal();;
 (** Selon la valeur du type value, on vérifie qu'elle corresponde bien à la couleur demandée *)
 
 let test_color_of_value_structurel() : unit =
@@ -36,15 +36,17 @@ let test_color_of_value_structurel() : unit =
   )
 ;;
 
-
+test_color_of_value_structurel();;
 
 let test_compute_new_position_functionnal() : unit =
   let test_status : t_test_status = create_test_status("ompute_new_position") in
   (
-    test_func_equals_value(test_status,"La direction est au nord",compute_new_position,({pt = {x = 0; y = 0};dir = UP},{pt = {x = 0; y = 1}, dir = UP}));
+    test_func_equals_value(test_status,"La direction est au nord donc le serpent monte",compute_new_position,({pt = {x = 0; y = 0};dir = UP},UP),({pt = {x = 0; y = 1}; dir = UP}));
+    test_func_equals_value(test_status,"La direction est au sud donc le serpent descend",compute_new_position,({pt = {x = 5; y = 5};dir = DOWN},DOWN),({pt = {x = 5; y = 4}; dir = DOWN}));
+    test_func_equals_value(test_status,"La direction est à l'est donc le serpent tourne à droite",compute_new_position,({pt = {x = 5; y = 5};dir = RIGHT},RIGHT),({pt = {x = 6; y = 5}; dir = RIGHT}));
+    test_func_equals_value(test_status,"La direction est à l'ouest donc le serpent tourne à gauche",compute_new_position,({pt = {x = 5; y = 5};dir = LEFT},LEFT),({pt = {x = 4 ; y = 5}; dir = LEFT})); 
     print_test_status(test_status); 
   ) 
 ;;
 
-  
-
+test_compute_new_position_functionnal();;
