@@ -111,7 +111,7 @@ type t_snake = t_position list ;;
 (** {3 La matrice} *)
 
 (** valeurs possibles pour les elements de la matrice de jeu ; dans cette version du jeu, les valeurs FRAME et PROBLEM, bien qu'utilisees dans le jeu, ne sont pas utilisees comme valeurs d'elements de la matrice de jeu *)
-type t_value = EMPTY | SNAKE | FRAME | PROBLEM ;;
+type t_value = EMPTY | SNAKE | FRAME | PROBLEM | BONUS ;;
 
 (** pour la representation d'une matrice de jeu *)
 type t_matrix = t_value matrix;;
@@ -137,11 +137,14 @@ let color_of_value(x : t_value) : t_color =
   then white
   else
     if x = SNAKE
-    then black
+    then green
     else
       if x = FRAME
-      then green
-      else red
+      then black
+      else
+        if x = BONUS
+        then magenta
+        else red
 ;;
 
 (** {2 Parametrage des elements du jeu} *)
