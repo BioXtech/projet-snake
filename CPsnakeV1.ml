@@ -413,6 +413,7 @@ let handle_t_acc(t, t_acc, play : float ref * float ref * t_play) : unit =
     (
     play.dt := !(play.dt) *. mydt_ratio() ; 
     t_acc := !t ;
+    snake_grow(pl);
     ) 
 ;;
 
