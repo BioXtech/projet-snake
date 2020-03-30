@@ -1,7 +1,7 @@
-(*
-#use "CPinter_sn.ml";;
-#use "CPsnake_misc.ml";;
-*)
+
+(*#use "CPinter_sn.ml";;
+#use "CPsnake_misc.ml";;*)
+
 
 open CPutil_sn;;
 open_graph(700,700);;
@@ -272,12 +272,12 @@ let draw_whole_snake(s : t_snake) : unit =
     @since 1.0
 *)
 let rec init_snake_aux(i : int) : t_snake =
-  if i = 1
+  if i <= 1
   then [{pt = {x = (mysnake_position_init()).x;
                y = (mysnake_position_init()).y}; dir = LEFT}]
   else add_lst(init_snake_aux(i - 1),{pt = {x = (mysnake_position_init()).x -1 + i;
                       y = (mysnake_position_init()).y} ; dir = LEFT})
-
+;;
 (** Fonction qui initialise le serpent au début du jeu.
     @return le serpent.
     @author Guillaume.
@@ -320,9 +320,10 @@ let init_snake_matrix() : t_snake * t_matrix =
     @since 1.0
 *)
 let init_play() : t_play =
+  let (snake,matrix) : t_snake * t_matrix = init_snake_matrix() in
   draw_frame();
   draw_whole_snake(init_snake());
-  {dt = {contents = mydt_init()}; sn = {contents = init_snake()}; mat = init_matrix()}
+  ({dt = {contents = mydt_init()}; sn = {contents = snake}; mat = matrix})
 ;;
 
 (** Fonction qui met à jour la position d'une case du serpent en fonction de la direction en entrée.
@@ -444,7 +445,6 @@ let analyze(pos : t_position) : t_direction =
       then if j > l then UP else DOWN
       else v
 ;;
-
 
 (** Fonction qui effectue une nouvelle étape de jeu
     @param pl le plateau de jeu
