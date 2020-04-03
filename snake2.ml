@@ -8,15 +8,15 @@ type t_play = { dt : float ref ; sn : t_snake ref ; mat : t_matrix ; score : int
 (** le score sera calculé fonction du temps et des bonus *)
 
 
-let calcul_score() : unit =
-  let moved : t_position * t_value = compute_move() in
-  while (!(move : bool)
-         do
-                                               
+let calcul_score(score : int) : int =
+  score + 10;
+;;
 
+
+(** Affiche dans la fenêtre graphique en dessous du jeu le score *)
 let set_score () : unit =
   set_color(black);
-  moveto(250,50);
+  moveto(mymatrix_dx() * mydilation_x() /2 ,mymatrix_dy() * mydilation_y()/10);
   draw_string("Score :");
 ;;
 
