@@ -13,14 +13,21 @@ let calcul_score(score : int) : int =
 ;;
 
 
-(** Affiche dans la fenêtre graphique en dessous du jeu le score *)
+(** Affiche le score dans la fenêtre graphique en dessous de la mattrice de jeu en faisant bien attention qu'ils ne soit pas placé dans la matrice de jeu *)
 let set_score () : unit =
   set_color(black);
   moveto(mymatrix_dx() * mydilation_x() /2 ,mymatrix_dy() * mydilation_y()/10);
-  draw_string("Score :"^(pl.score));
+  draw_string("Score :");
 ;;
 
+(** Affiche le résultat à la suite de la fonction set_score() *)
+let display_score() : unit  =
+  set_score();
+  draw_string("calcul_score");
 
+;;
+
+  
 
 
 
