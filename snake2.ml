@@ -461,7 +461,7 @@ let snake_initial_length(pl : t_play) : unit =
   (
     for i = 0 to mysnake_length_init()
     do
-      new_snake := add_fst(!new_snake, nth(snake,i));
+      new_snake := add_lst(!new_snake, nth(snake,i));
     done;
     pl.sn := !new_snake;
   )
