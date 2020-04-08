@@ -400,17 +400,24 @@ let snake_grow(pl : t_play) : unit =
   )
 ;;
    
-(** le score sera calculé fonction du temps et des bonus *)
-let calcul_score(score : int) : int =
-  score + 10;
+(** le score sera calculé fonction du temps *)
+let increase_score(pl : t_play) : int =
+  pl.score := (!(pl.score)) + 10;
+  (!(pl.score));
 ;;
 
 
-(** Affiche dans la fenêtre graphique en dessous du jeu le score *)
+(** Affiche le score dans la fenêtre graphique en dessous de la mattrice de jeu en faisant bien attention qu'ils ne soit pas placé dans la matrice de jeu *)
 let set_score () : unit =
   set_color(black);
   moveto(mymatrix_dx() * mydilation_x() /2 ,mymatrix_dy() * mydilation_y()/10);
   draw_string("Score :");
+;;
+
+(** Affiche le résultat à la suite de la fonction set_score() *)
+let display_score(pl : t_play ) : unit  =
+  set_score();
+  draw_string(string_of_int(increase_score(pl)));
 ;;
 
 (** Fonction qui sert à générer les coordonnées du bonus sans conflit avec une case existante.
@@ -444,9 +451,20 @@ let spawn_bonus(pl : t_play) : unit =
     pl.mat.(rand_x).(rand_y) <- BONUS;    
   )
 ;;
-
+(** Fonction qui remet le serpent à sa taille initiale.
+    @param pl le plateau de jeu.
+    @author Guillaume
+    @since 2.0
+ *)
 let snake_initial_length(pl : t_play) : unit =
-  
+  let new_snake : t_snake ref = ref [] and snake : t_snake = (!(pl.sn)) in
+  (
+    for i = 0 to mysnake_length_init()
+    do
+      new_snake := add_fst(!new_snake, nth(snake,i));
+    done;
+    pl.sn := !new_snake;
+  )
 ;;
 
 
@@ -485,6 +503,9 @@ let new_step(pl : t_play) : bool =
         else  
           (
             move_snake(pl, newpos);
+            if(rand_int(0,10) > 5)
+            then spawn_bonus(pl)
+            else ();
             false;
           )
 ;;
