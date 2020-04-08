@@ -2,14 +2,15 @@ open_graph(700,700);;
 #use "CPinter_sn.ml";;
 #use "snake1.ml";;
 
-type t_play = { dt : float ref ; sn : t_snake ref ; mat : t_matrix ; score : int };;
+type t_play = { dt : float ref ; sn : t_snake ref ; mat : t_matrix ; score : int ref };;
 
 
 (** le score sera calculé fonction du temps *)
 
 
-let calcul_score(score : int) : int =
-  score + 10;
+let increase_score(pl : t_play) : int =
+  pl.score := (!(pl.score)) + 10;
+  (!(pl.score));
 ;;
 
 
@@ -21,10 +22,9 @@ let set_score () : unit =
 ;;
 
 (** Affiche le résultat à la suite de la fonction set_score() *)
-let display_score() : unit  =
+let display_score(pl : t_play ) : unit  =
   set_score();
-  draw_string("calcul_score");
-
+  draw_string(string_of_int(increase_score(pl)));
 ;;
 
   
