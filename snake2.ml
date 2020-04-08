@@ -122,7 +122,7 @@ type t_matrix = t_value matrix;;
 (** {3 Le container} *)
 
 (** container rassemblant les caracteristiques d'un jeu *)
-type t_play = {dt : float ref ; sn : t_snake ref ; mat : t_matrix} ;;
+type t_play = { dt : float ref ; sn : t_snake ref ; mat : t_matrix ; score : int ref};;
 
 (* ------------------------------ *)
 (* conversion en couleurs des     *)
@@ -277,7 +277,7 @@ let init_play() : t_play =
       clear_graph();
       draw_frame();
       draw_whole_snake(s) ;
-      {dt = ref (mydt_init()) ; sn = ref s ; mat = m} ;
+      {dt = ref (mydt_init()) ; sn = ref s ; mat = m; score = ref 0} ;
     )
 ;; 
 
@@ -374,7 +374,82 @@ let move_snake(pl, newpos : t_play * t_position) : unit =
   remove_snake_tail(pl) ;
   )
 ;;
+
+(** Nouvelles fonctions de la deuxième version du jeu du serpent. *)
+
+
+(** Fonction qui allonge le serpent d'une case à chaque appel.
+    @author Guillaume.
+    @since 2.0
+*)
+let snake_grow(pl : t_play) : unit =
+  let snake : t_snake = !(pl.sn) in
+  let snake_tail : t_position = lst(snake) in
+  let x : int ref = ref snake_tail.pt.x and y : int ref = ref snake_tail.pt.y in
+  (
+    if snake_tail.dir = UP
+    then y := !y - 1
+    else
+      if snake_tail.dir = LEFT
+      then x := !x + 1
+      else
+        if snake_tail.dir = RIGHT
+        then x := !x - 1
+        else y := !y + 1;
+    pl.sn := add_lst(snake,{pt = {x = !x; y = !y}; dir = snake_tail.dir});
+  )
+;;
+   
+(** le score sera calculé fonction du temps et des bonus *)
+let calcul_score(score : int) : int =
+  score + 10;
+;;
+
+
+(** Affiche dans la fenêtre graphique en dessous du jeu le score *)
+let set_score () : unit =
+  set_color(black);
+  moveto(mymatrix_dx() * mydilation_x() /2 ,mymatrix_dy() * mydilation_y()/10);
+  draw_string("Score :");
+;;
+
+(** Fonction qui sert à générer les coordonnées du bonus sans conflit avec une case existante.
+    @param pl le plateau de jeu.
+    @return les coodronées du bonus.
+    @author Guillaume
+    @since 2.0
+ *)
+let spawn_bonus_coords(pl : t_play) : (int * int) =
+  let matrix : t_matrix = pl.mat and rand_x : int ref = ref (rand_int(0,mymatrix_dx())) and rand_y : int ref = ref (rand_int(0,mymatrix_dy())) in
+  (
+    while (matrix.(!rand_x).(!rand_y) <> EMPTY)
+    do
+      rand_x := rand_int(0,mymatrix_dx());
+      rand_y := rand_int(0,mymatrix_dy());
+    done;
+    (!rand_x,!rand_y);
+  )
+;;
+
+(** Fonction qui fait apparaître un bonus sur une case de la matrice.
+    @param pl le plateau de jeu.
+    @author Guillaume
+    @since 2.0
+ *)
+let spawn_bonus(pl : t_play) : unit =
+  let (rand_x, rand_y : int * int) = spawn_bonus_coords(pl) in
+  (
+    set_color(color_of_value(BONUS));
+    myplot(rand_x,rand_y);
+    pl.mat.(rand_x).(rand_y) <- BONUS;    
+  )
+;;
+
+let snake_initial_length(pl : t_play) : unit =
   
+;;
+
+
 (** {3 Calcul d'une etape de jeu} *)
 (** deroule une etape de jeu : calcule la nouvelle position de la tete du serpent ainsi que la valeur correspondante, et traite les differents cas : sortie de la zone de jeu, collision du serpent avec lui-meme, deplacement autorise *)
 let new_step(pl : t_play) : bool =
@@ -400,35 +475,20 @@ let new_step(pl : t_play) : bool =
         draw_string("you bit yourself") ;
         true ;
         )
-      else 
-        (
-        move_snake(pl, newpos) ;
-        false ;
-        )
-;;
-
-(** Fonction qui allonge le serpent d'une case à chaque appel.
-    @author Guillaume.
-    @since 2.0
-*)
-let snake_grow(pl : t_play) : unit =
-  let snake : t_snake = !(pl.sn) in
-  let snake_tail : t_position = lst(snake) in
-  let x : int ref = ref snake_tail.pt.x and y : int ref = ref snake_tail.pt.y in
-  (
-    if snake_tail.dir = UP
-    then y := !y - 1
-    else
-      if snake_tail.dir = LEFT
-      then x := !x + 1
       else
-        if snake_tail.dir = RIGHT
-        then x := !x - 1
-        else y := !y + 1;
-    pl.sn := add_lst(snake,{pt = {x = !x; y = !y}; dir = snake_tail.dir});
-  )
+        if status = BONUS
+        then
+          (
+            snake_initial_length(pl);
+            false;  
+          )
+        else  
+          (
+            move_snake(pl, newpos);
+            false;
+          )
 ;;
-        
+     
 (** {2 Gestion du temps} *)
 
 (** {3 Acceleration} *)
@@ -470,50 +530,5 @@ let simulation() : unit =
       thend := new_step(pl) ;
     done ;
     )
-;;
-
-(** Nouvelles fonctions de la deuxième version du jeu du serpent. *)
-
-
-
-(** le score sera calculé fonction du temps et des bonus *)
-let calcul_score(score : int) : int =
-  score + 10;
-;;
-
-
-(** Affiche dans la fenêtre graphique en dessous du jeu le score *)
-let set_score () : unit =
-  set_color(black);
-  moveto(mymatrix_dx() * mydilation_x() /2 ,mymatrix_dy() * mydilation_y()/10);
-  draw_string("Score :");
-;;
-
-(** Fonction qui sert à générer les coordonnées du bonus sans conflit avec une case existante.
-    @param pl le plateau de jeu.
-    @return les coodronées du bonus.
-    @author Guillaume
-    @since 2.0
- *)
-let spawn_bonus_coords(pl : t_play) : (int * int) =
-  let matrix : t_matrix = pl.mat and rand_x : int ref = ref rand_int(0,mymatrix_dx()) and rand_y : int ref = ref rand_int(0,mymatrix_dy()) in
-  (
-    while (matrix.(rand_x).(rand_y) <> EMPTY)
-    do
-      rand_x := rand_int(0,mymatrix_dx());
-      rand_y := rand_int(0,mymatrix_dy());
-    done;
-    (rand_x,rand_y);
-  )
-;;
-
-
-let spawn_bonus(pl : t_play) : unit =
-  let (rand_x, rand_y : int * int) = spawn_bonus_coords() in
-  (
-    myplot(rand_x,rand_y);
-    pl.mat.(rand_x).(rand_y) <- BONUS;
-    
-  )
 ;;
 
