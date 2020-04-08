@@ -2,3 +2,5 @@
 *.ml~
 *.ml#
 .#Snake.ml
+.#snake2perso.ml
+snake2perso.ml
