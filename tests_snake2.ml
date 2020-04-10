@@ -242,3 +242,6 @@ let test_increase_score_functionnal() : unit =
   )
 ;;
 test_increase_score_functionnal();;
+
+
+(**  Les fonctions qui retournent un type unit n'ont pas été testées car on ne peux pas comparer une valeur à la valeur retournée par la fonction. *)
