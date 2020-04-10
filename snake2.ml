@@ -377,29 +377,6 @@ let move_snake(pl, newpos : t_play * t_position) : unit =
 ;;
 
 (** Nouvelles fonctions de la deuxième version du jeu du serpent. *)
-
-
-(** Fonction qui allonge le serpent d'une case à chaque appel en fonction de la direction.
-    @author Guillaume.
-    @since 2.0
-*)
-let add_snake_tail(pl : t_play) : unit =
-  let snake : t_snake = !(pl.sn) in
-  let snake_tail : t_position = lst(snake) in
-  let x : int ref = ref snake_tail.pt.x and y : int ref = ref snake_tail.pt.y in
-  (
-    if snake_tail.dir = UP
-    then y := !y - 1
-    else
-      if snake_tail.dir = LEFT
-      then x := !x + 1
-      else
-        if snake_tail.dir = RIGHT
-        then x := !x - 1
-        else y := !y + 1;
-    pl.sn := add_lst(snake,{pt = {x = !x; y = !y}; dir = snake_tail.dir});
-  )
-;;
    
 (** le score sera calculé fonction du temps 
     @param pl le plateau de jeu
@@ -433,6 +410,28 @@ let display_score(pl : t_play ) : unit  =
   fill_rect(mymatrix_dx() * mydilation_x() /2, mymatrix_dy() * mydilation_y()/10,100,20 );
   set_score();
   draw_string(string_of_int(increase_score(pl)));
+;;
+
+(** Fonction qui allonge le serpent d'une case à chaque appel en fonction de la direction.
+    @author Guillaume.
+    @since 2.0
+*)
+let add_snake_tail(pl : t_play) : unit =
+  let snake : t_snake = !(pl.sn) in
+  let snake_tail : t_position = lst(snake) in
+  let x : int ref = ref snake_tail.pt.x and y : int ref = ref snake_tail.pt.y in
+  (
+    if snake_tail.dir = UP
+    then y := !y - 1
+    else
+      if snake_tail.dir = LEFT
+      then x := !x + 1
+      else
+        if snake_tail.dir = RIGHT
+        then x := !x - 1
+        else y := !y + 1;
+    pl.sn := add_lst(snake,{pt = {x = !x; y = !y}; dir = snake_tail.dir});
+  )
 ;;
 
 (** Fonction qui sert à générer les coordonnées du bonus sans conflit avec une case existante.
