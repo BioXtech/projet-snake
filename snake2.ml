@@ -17,8 +17,8 @@ Le descriptif complet de cette version du jeu figure sur UPdago, cours de Comple
 (* --------------------------*)
 
 
-(*open CPutil_sn ;;*)
-#use "CPinter_sn.ml";;
+open CPutil_sn ;;
+(*#use "CPinter_sn.ml";;*)
 open_graph(700,700);;
 
 (* --------------------------*)

@@ -1,9 +1,9 @@
-#use "CPtest_sn.ml";;
-#use "snake2.ml";;
+(*#use "CPtest_sn.ml";;
+#use "snake2.ml";;*)
 
-(*open CPtest_sn;;
 open CPtest_sn;;
-open Snake2;;*)
+open CPtest_sn;;
+open Snake2;;
 
 (** Ceci est le fichier de test de la deuxième version du jeu snake
     @version 2.0
@@ -228,3 +228,17 @@ let test_compute_move_functionnal() : unit =
 test_compute_move_functionnal();;
 
 
+(** Test fonctionnel de increase_score() 
+    @author Duc.
+    @since 2.0
+ *)
+let test_increase_score_functionnal() : unit =
+  let test_status : t_test_status = create_test_status("increase_score") in
+  (
+    test_func_equals_value(test_status,"La valeur est passé de 0 à 10",increase_score,
+                           ({dt = ref (mydt_init());sn = ref (init_snake()); mat = init_matrix() ; score = ref 0 })
+                           ,(10));
+    print_test_status(test_status);  
+  )
+;;
+test_increase_score_functionnal();;
