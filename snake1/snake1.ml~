@@ -424,27 +424,6 @@ let move_snake ( pl , newpos : t_play * t_position ) : unit =
   remove_snake_tail(pl);
 ;;
 
-let analyze(pos : t_position) : t_direction =
-  let (i, j) : int * int = mouse_pos() in
-  let (k, l) : int * int = (mygraphic_x(pos.pt.x), mygraphic_y(pos.pt.y)) in
-  let v : t_direction =
-    if abs(i - k) < abs(j - l)
-    then 
-      if j > l 
-      then UP
-      else DOWN
-    else
-      if i < k
-      then LEFT
-      else RIGHT
-  in
-    if (pos.dir = UP && v = DOWN) || (pos.dir = DOWN && v = UP)
-    then if i < k then LEFT else RIGHT
-    else 
-      if (pos.dir = LEFT && v = RIGHT) || (pos.dir = RIGHT && v = LEFT)
-      then if j > l then UP else DOWN
-      else v
-;;
 
 (** Fonction qui effectue une nouvelle étape de jeu
     @param pl le plateau de jeu

@@ -4,10 +4,7 @@
 open CPtest_sn
 open CPtest_sn
 open Snake1
-(** Ceci est le fichier de test de la premiËre version du jeu snake
-    @version 1.0
- *)
-   
+
 (* Nous verifions ici si la valeur de sortie correspond bien a la valeur calculee *)
 (** Test fonctionnel de mygraphic_x
     @author Duc.
@@ -40,7 +37,7 @@ let test_mygraphic_y_functionnal() : unit =
 test_mygraphic_y_functionnal();;
 
 (** Test strucurel de color_of_value
-Selon la valeur du type value, on vÈrifie qu'elle corresponde bien ‡ la couleur demand√©e 
+Selon la valeur du type value, on v√©rifie qu'elle corresponde bien √† la couleur demand√©e 
       @author Duc.
       @since 1.0
 *)
@@ -63,20 +60,20 @@ test_color_of_value_structural();;
 let test_init_snake_aux_functionnal() : unit =
   let test_status : t_test_status = create_test_status("init_snake_aux") in
   (
-    test_func_equals_value(test_status,"CrÈe un serpent de taille initiale",init_snake_aux,(mysnake_length_init()),[
+    test_func_equals_value(test_status,"Cr√©er un serpent de taille initiale",init_snake_aux,(mysnake_length_init()),[
 	{pt = {x = 20; y = 20}; dir = LEFT};
 	{pt = {x = 21; y = 20}; dir = LEFT};
 	{pt = {x = 22; y = 20}; dir = LEFT}
 
 ]);
-    test_func_equals_value(test_status,"CrÈe un serpent de taille 4",init_snake_aux,(4),[
+    test_func_equals_value(test_status,"Cr√©er un serpent de taille 4",init_snake_aux,(4),[
 	{pt = {x = 20; y = 20}; dir = LEFT};
 	{pt = {x = 21; y = 20}; dir = LEFT};
 	{pt = {x = 22; y = 20}; dir = LEFT};
 	{pt = {x = 23; y = 20}; dir = LEFT}
 
 ]);
-    test_func_equals_value(test_status,"CrÈe un serpent de taille 0",init_snake_aux,(0),[
+    test_func_equals_value(test_status,"Cr√©er un serpent de taille 0",init_snake_aux,(0),[
 	{pt = {x = 20; y = 20}; dir = LEFT}
 ]);
     print_test_status(test_status);
@@ -91,7 +88,7 @@ test_init_snake_aux_functionnal();;
 let test_init_snake_functionnal() : unit =
   let test_status : t_test_status = create_test_status("init_snake") in
   (
-    test_func_similar_list(test_status,"CrÈe un serpent de taille initiale", init_snake,(),[
+    test_func_similar_list(test_status,"Cr√©e un serpent de taille initiale", init_snake,(),[
 	{pt = {x = 20; y = 20}; dir = LEFT};
 	{pt = {x = 21; y = 20}; dir = LEFT};
 	{pt = {x = 22; y = 20}; dir = LEFT}
