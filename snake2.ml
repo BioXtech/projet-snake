@@ -270,19 +270,6 @@ let init_snake_matrix() : t_snake * t_matrix =
     )
 ;;
 
-(** initialise le jeu *)
-let init_play() : t_play =
-  let (s, m) : t_snake * t_matrix = init_snake_matrix() in
-    (
-      clear_graph();
-      draw_frame();
-      draw_whole_snake(s) ;
-      set_score();
-      {dt = ref (mydt_init()) ; sn = ref s ; mat = m; score = ref 0} ;
-    )
-;; 
-
-
 
 (* ---------------------------- *)
 (* les fonctions necessaires au *)
@@ -376,7 +363,9 @@ let move_snake(pl, newpos : t_play * t_position) : unit =
   )
 ;;
 
-(** Nouvelles fonctions de la deuxième version du jeu du serpent. *)
+(** {2 Nouvelles fonctions de la deuxième version du jeu du serpent.} *)
+
+(** {3 Extension 1: Score} *)
    
 (** le score sera calculé fonction du temps 
     @param pl le plateau de jeu
@@ -392,7 +381,7 @@ let increase_score(pl : t_play) : int =
 
 (** Affiche le score dans la fenêtre graphique en dessous de la mattrice de jeu en faisant bien attention qu'ils ne soit pas placé dans la matrice de jeu 
     @author Duc
-    @sice 2.0
+    @since 2.0
  *)
 let set_score () : unit =
   set_color(color_of_value(FRAME));
@@ -411,6 +400,8 @@ let display_score(pl : t_play ) : unit  =
   set_score();
   draw_string(string_of_int(increase_score(pl)));
 ;;
+
+(** {3 Extension 2: Accroissement de la longueur du serpent} *)
 
 (** Fonction qui allonge le serpent d'une case à chaque appel en fonction de la direction.
     @author Guillaume.
@@ -433,6 +424,8 @@ let add_snake_tail(pl : t_play) : unit =
     pl.sn := add_lst(snake,{pt = {x = !x; y = !y}; dir = snake_tail.dir});
   )
 ;;
+
+(** {3 Extension 3 : Bonus } *)
 
 (** Fonction qui sert à générer les coordonnées du bonus sans conflit avec une case existante.
     @param pl le plateau de jeu.
@@ -491,9 +484,22 @@ let snake_initial_length(pl : t_play) : unit =
     remove_snake_tail(pl);
   done;
 ;;
-
+ 
 
 (** {3 Calcul d'une etape de jeu} *)
+
+(** initialise le jeu *)
+let init_play() : t_play =
+  let (s, m) : t_snake * t_matrix = init_snake_matrix() in
+    (
+      clear_graph();
+      draw_frame();
+      draw_whole_snake(s) ;
+      set_score();
+      {dt = ref (mydt_init()) ; sn = ref s ; mat = m; score = ref 0} ;
+    )
+;;
+
 (** deroule une etape de jeu : calcule la nouvelle position de la tete du serpent ainsi que la valeur correspondante, et traite les differents cas : sortie de la zone de jeu, collision du serpent avec lui-meme, deplacement autorise *)
 let new_step(pl : t_play) : bool =
   let fstpos : t_position = fst(!(pl.sn)) in
