@@ -401,22 +401,37 @@ let add_snake_tail(pl : t_play) : unit =
   )
 ;;
    
-(** le score sera calculé fonction du temps *)
+(** le score sera calculé fonction du temps 
+    @param pl le plateau de jeu
+    @return le score actualisé
+    @author Duc
+    @since 2.0
+ *)
+
 let increase_score(pl : t_play) : int =
   pl.score := (!(pl.score)) + 10;
   (!(pl.score));
 ;;
 
 
-(** Affiche le score dans la fenêtre graphique en dessous de la mattrice de jeu en faisant bien attention qu'ils ne soit pas placé dans la matrice de jeu *)
+(** Affiche le score dans la fenêtre graphique en dessous de la mattrice de jeu en faisant bien attention qu'ils ne soit pas placé dans la matrice de jeu 
+    @author Duc
+    @sice 2.0
+ *)
 let set_score () : unit =
-  set_color(black);
+  set_color(color_of_value(FRAME));
   moveto(mymatrix_dx() * mydilation_x() /2 ,mymatrix_dy() * mydilation_y()/10);
-  draw_string("Score :");
+  draw_string("Score : ");
 ;;
 
-(** Affiche le résultat à la suite de la fonction set_score() *)
+(** Affiche le résultat à la suite de la fonction set_score() 
+    @param pl le plateau de jeu
+    @author Duc
+    @since 2.0
+*)
 let display_score(pl : t_play ) : unit  =
+  set_color(color_of_value(EMPTY));
+  fill_rect(mymatrix_dx() * mydilation_x() /2, mymatrix_dy() * mydilation_y()/10,100,20 );
   set_score();
   draw_string(string_of_int(increase_score(pl)));
 ;;
