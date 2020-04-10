@@ -277,6 +277,7 @@ let init_play() : t_play =
       clear_graph();
       draw_frame();
       draw_whole_snake(s) ;
+      set_score();
       {dt = ref (mydt_init()) ; sn = ref s ; mat = m; score = ref 0} ;
     )
 ;; 
@@ -378,11 +379,11 @@ let move_snake(pl, newpos : t_play * t_position) : unit =
 (** Nouvelles fonctions de la deuxième version du jeu du serpent. *)
 
 
-(** Fonction qui allonge le serpent d'une case à chaque appel.
+(** Fonction qui allonge le serpent d'une case à chaque appel en fonction de la direction.
     @author Guillaume.
     @since 2.0
 *)
-let snake_grow(pl : t_play) : unit =
+let add_snake_tail(pl : t_play) : unit =
   let snake : t_snake = !(pl.sn) in
   let snake_tail : t_position = lst(snake) in
   let x : int ref = ref snake_tail.pt.x and y : int ref = ref snake_tail.pt.y in
@@ -422,12 +423,12 @@ let display_score(pl : t_play ) : unit  =
 
 (** Fonction qui sert à générer les coordonnées du bonus sans conflit avec une case existante.
     @param pl le plateau de jeu.
-    @return les coodronées du bonus.
+    @return les coordonées du bonus.
     @author Guillaume
     @since 2.0
  *)
 let spawn_bonus_coords(pl : t_play) : (int * int) =
-  let matrix : t_matrix = pl.mat and rand_x : int ref = ref (rand_int(0,mymatrix_dx())) and rand_y : int ref = ref (rand_int(0,mymatrix_dy())) in
+  let matrix : t_matrix = pl.mat and rand_x : int ref = ref (rand_int(0,mymatrix_dx()-1)) and rand_y : int ref = ref (rand_int(0,mymatrix_dy()-1)) in
   (
     while (matrix.(!rand_x).(!rand_y) <> EMPTY)
     do
@@ -451,20 +452,31 @@ let spawn_bonus(pl : t_play) : unit =
     pl.mat.(rand_x).(rand_y) <- BONUS;    
   )
 ;;
+
+(** Fonction qui permet d'effacer un bonus quand il a été mangé.
+    @param pl le plateau de jeu.
+    @param pos la position du bonus.
+    @author Guillaume
+    @since 2.0
+ *)
+let remove_bonus(pl, pos : t_play * t_position) : unit =
+  pl.mat.(pos.pt.x).(pos.pt.y) <- EMPTY;
+  set_color(color_of_value(EMPTY));
+  myplot(pos.pt.x,pos.pt.y);
+;;
+
+
 (** Fonction qui remet le serpent à sa taille initiale.
     @param pl le plateau de jeu.
     @author Guillaume
     @since 2.0
  *)
 let snake_initial_length(pl : t_play) : unit =
-  let new_snake : t_snake ref = ref [] and snake : t_snake = (!(pl.sn)) in
-  (
-    for i = 0 to mysnake_length_init()
-    do
-      new_snake := add_lst(!new_snake, nth(snake,i));
-    done;
-    pl.sn := !new_snake;
-  )
+  let imax : int = (len(!(pl.sn)) - mysnake_length_init()+1) in
+  for i = 0 to imax
+  do
+    remove_snake_tail(pl);
+  done;
 ;;
 
 
@@ -497,13 +509,15 @@ let new_step(pl : t_play) : bool =
         if status = BONUS
         then
           (
+            remove_bonus(pl,newpos);
             snake_initial_length(pl);
+            display_score(pl);
             false;  
           )
         else  
           (
             move_snake(pl, newpos);
-            if(rand_int(0,10) > 5)
+            if(rand_int(0,10) > 9)
             then spawn_bonus(pl)
             else ();
             false;
@@ -520,7 +534,7 @@ let handle_t_acc(t, t_acc, play : float ref * float ref * t_play) : unit =
     (
     play.dt := !(play.dt) *. mydt_ratio() ; 
     t_acc := !t ;
-    snake_grow(play);
+    add_snake_tail(play);
     ) 
 ;;
 
