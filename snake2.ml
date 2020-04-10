@@ -407,7 +407,6 @@ let add_snake_tail(pl : t_play) : unit =
     @author Duc
     @since 2.0
  *)
-
 let increase_score(pl : t_play) : int =
   pl.score := (!(pl.score)) + 10;
   (!(pl.score));
